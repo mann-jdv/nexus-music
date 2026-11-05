@@ -448,6 +448,8 @@ import java.time.format.DateTimeFormatter
 import com.maxrave.simpmusic.ui.component.glass.GlassModalBottomSheet
 import com.maxrave.simpmusic.ui.component.glass.GlassAlertDialog
 import com.maxrave.simpmusic.ui.component.glass.glassBarBlur
+import com.maxrave.simpmusic.ui.screen.player.content.NOW_PLAYING_STYLE_LIQUID_GLASS
+import simpmusic.composeapp.generated.resources.now_playing_style_liquid_glass
 
 @OptIn(
     ExperimentalMaterial3Api::class,
@@ -739,6 +741,7 @@ fun SettingScreen(
                             DataStoreManager.NOW_PLAYING_STYLE_M3_EXPRESSIVE to stringResource(Res.string.now_playing_style_m3_expressive),
                             DataStoreManager.NOW_PLAYING_STYLE_APPLE_MUSIC to
                                 stringResource(Res.string.now_playing_style_apple_music) + requiresAndroid12,
+                            NOW_PLAYING_STYLE_LIQUID_GLASS to stringResource(Res.string.now_playing_style_liquid_glass),
                         )
                     SettingItem(
                         title = stringResource(Res.string.now_playing_style),
