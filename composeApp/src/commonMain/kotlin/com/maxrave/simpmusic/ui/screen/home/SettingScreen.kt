@@ -138,6 +138,7 @@ import com.maxrave.simpmusic.ui.icon.PeopleAlt
 import com.maxrave.simpmusic.ui.icon.PlaylistAdd
 import com.maxrave.simpmusic.ui.icon.SimpIcons
 import com.maxrave.simpmusic.ui.navigation.destination.home.AppLogDestination
+import com.maxrave.simpmusic.ui.navigation.destination.home.GlassLabDestination
 import com.maxrave.simpmusic.ui.navigation.destination.home.CreditDestination
 import com.maxrave.simpmusic.ui.navigation.destination.login.DiscordLoginDestination
 import com.maxrave.simpmusic.ui.navigation.destination.login.LastfmLoginDestination
@@ -196,6 +197,8 @@ import simpmusic.composeapp.generated.resources.app_log
 import simpmusic.composeapp.generated.resources.app_log_description
 import simpmusic.composeapp.generated.resources.app_name
 import simpmusic.composeapp.generated.resources.developer_option
+import simpmusic.composeapp.generated.resources.glass_lab
+import simpmusic.composeapp.generated.resources.glass_lab_description
 import simpmusic.composeapp.generated.resources.audio
 import simpmusic.composeapp.generated.resources.audio_delay
 import simpmusic.composeapp.generated.resources.audio_delay_description
@@ -2750,6 +2753,13 @@ fun SettingScreen(
                     subtitle = stringResource(Res.string.app_log_description),
                     onClick = {
                         navController.navigate(AppLogDestination)
+                    },
+                )
+                SettingItem(
+                    title = stringResource(Res.string.glass_lab),
+                    subtitle = stringResource(Res.string.glass_lab_description),
+                    onClick = {
+                        navController.navigate(GlassLabDestination)
                     },
                 )
             }

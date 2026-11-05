@@ -60,9 +60,13 @@ val LocalIsDarkTheme = staticCompositionLocalOf { true }
 /**
  * Whether liquid-glass surfaces may actually draw glass.
  *
- * Provided by [AppTheme] from the user's setting; the default is true so previews and anything
- * composed outside [AppTheme] keep today's look. The setting row is Android-only, so Desktop always
- * provides true — its capsule player and detail-screen buttons are glass by design, with no switch.
+ * Provided by [AppTheme] from the user's "Liquid Glass" setting (DataStore key `liquid_glass`,
+ * Settings → User interface) on Android and Desktop alike; the default is true so previews and
+ * anything composed outside [AppTheme] keep today's look.
+ *
+ * Read by the kyant refraction primitives (`liquidGlass`, `LiquidGlassContainer`) and by the frosted
+ * [com.maxrave.simpmusic.ui.component.glass.GlassSurface], which both fall back to a flat tint when
+ * it is false.
  */
 val LocalLiquidGlassEnabled = staticCompositionLocalOf { true }
 
