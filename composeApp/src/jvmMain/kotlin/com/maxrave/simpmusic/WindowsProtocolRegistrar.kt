@@ -89,8 +89,8 @@ object WindowsProtocolRegistrar {
     private fun resolveExePath(): String? {
         // JPackage directory structure:
         //   <app>/runtime/...  (java.home points here)
-        //   <app>/SimpMusic.exe
-        // So we go: java.home → parent (runtime) → parent (app) → SimpMusic.exe
+        //   <app>/NexusMusic.exe (compose.desktop packageName in desktopApp/build.gradle.kts)
+        // So we go: java.home → parent (runtime) → parent (app) → NexusMusic.exe
         val javaHome = System.getProperty("java.home") ?: return null
         val javaHomeDir = java.io.File(javaHome)
 
@@ -105,7 +105,7 @@ object WindowsProtocolRegistrar {
         }
 
         if (appDir != null) {
-            val exeFile = java.io.File(appDir, "SimpMusic.exe")
+            val exeFile = java.io.File(appDir, "NexusMusic.exe")
             if (exeFile.exists()) {
                 return exeFile.absolutePath
             }

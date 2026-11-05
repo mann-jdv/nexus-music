@@ -254,7 +254,9 @@ class MainActivity : AppCompatActivity() {
         }
         viewModel.getLocation()
 
-        if (!BuildConfig.DEBUG) viewModel.checkOfficialBuild(packageName, signingCertSha256())
+        // Nexus Music: SimpMusic's anti-repackaging check (checkOfficialBuild) is not called. It only
+        // accepts com.maxrave.simpmusic signed with SimpMusic's F-Droid key, so every Nexus release
+        // build would open to UnofficialBuildScreen.
         setContent {
             App(viewModel)
         }

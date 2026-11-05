@@ -35,6 +35,9 @@ plugins {
 // Force it to `always` so `Res` is generated for this app module.
 compose.resources {
     generateResClass = always
+    // Nexus Music: the default package is derived from rootProject.name, which is now
+    // "NexusMusic". Pin it so every `simpmusic.composeapp.generated.resources.*` import keeps working.
+    packageOfResClass = "simpmusic.composeapp.generated.resources"
 }
 
 kotlin {

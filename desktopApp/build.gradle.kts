@@ -128,9 +128,9 @@ tasks.named<hydraulic.conveyor.gradle.WriteConveyorConfigTask>("writeConveyorCon
     doLast {
         destination.get().asFile.appendText(
             """
-            |app.fsname = simpmusic
-            |app.display-name = SimpMusic
-            |app.rdns-name = com.maxrave.simpmusic
+            |app.fsname = nexus-music
+            |app.display-name = Nexus Music
+            |app.rdns-name = org.nexusmusic.app
             |
             |// Override the Gradle-detected classpath with the ProGuard'd
             |// jar directory. Conveyor expands a directory entry to every
@@ -167,7 +167,7 @@ compose.desktop {
             }
             targetFormats(*listTarget.toTypedArray())
             modules("jdk.unsupported")
-            packageName = "SimpMusic"
+            packageName = "NexusMusic"
             macOS {
                 val formatedDate =
                     Instant.now().let {

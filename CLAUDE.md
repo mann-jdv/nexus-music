@@ -14,7 +14,7 @@
 - Support both Android and Desktop (Windows, macOS, Linux)
 
 ### Basic Information
-- **Package name**: `com.maxrave.simpmusic`
+- **Package name**: `com.maxrave.simpmusic` (Kotlin packages and the Android `namespace`). This fork ships as **Nexus Music** with `applicationId` `org.nexusmusic.app` (`.dev` on debug); see "Nexus Music fork" near the end
 - **Primary language**: Kotlin
 - **UI Framework**: Jetpack Compose / Compose Multiplatform
 - **Architecture**: Clean Architecture + MVVM
@@ -1119,6 +1119,16 @@ if (getPlatform() == Platform.Android) {
   - **Session**: three keys (`discord_access_token`, `discord_refresh_token`, `discord_token_expires_at`) in the settings file, so they ride in backups like every other sign-in. Access tokens last about 7 days; `DiscordRepository.accessToken()` refreshes under a mutex when under 10 minutes are left, and an `invalid_grant` on refresh clears the session, which logs the user out and tears the RPC down through `loggedIn`. On a Full build the old `discord_token` is cleared at start: it was a whole-account token this build no longer uses. Log out does not call Discord's revoke endpoint; SimpMusic stays in the user's Authorized Apps until they remove it.
   - Both playback handlers now hold a `RichPresenceClient` (`core/data/.../mediaservice/RichPresenceClient.kt`) built by `createRichPresenceClient(discordRepository)`, and run on `richPresenceEnabled && discordRepository.loggedIn`; the rest of the RPC job is unchanged. Login Sync no longer carries Discord.
 
+## 🟣 Nexus Music fork (branch `nexus/main`)
+
+This repository is a personal fork rebranded as **Nexus Music**. Branding is user-facing only.
+
+- **Kept on purpose:** Kotlin packages, the Android `namespace` (`com.maxrave.simpmusic`), module packages (`org.simpmusic.*`) and the generated Compose resource package `simpmusic.composeapp.generated.resources`. `rootProject.name` is now `NexusMusic`, and the Compose plugin derives `Res`'s package from it. `composeApp/build.gradle.kts` therefore pins `packageOfResClass`; do not remove that line.
+- **Identity:** `applicationId = "org.nexusmusic.app"` (debug `org.nexusmusic.app.dev`) so it installs beside SimpMusic. FileProvider and androidx-startup authorities use `${applicationId}`, and `ShareImage.android.kt` uses `context.packageName`. `res/xml/shortcuts.xml` cannot use placeholders, so `androidApp/src/debug/res/xml/shortcuts.xml` holds a `.dev` copy; keep the two in step. Desktop: `AppIdentity.applicationId` in `DesktopApp.kt`, plus Conveyor `fsname = nexus-music`, `display-name = Nexus Music` and `rdns-name = org.nexusmusic.app`, appended in `desktopApp/build.gradle.kts` `writeConveyorConfig`. Compose `packageName = "NexusMusic"` names the jpackage exe, which `WindowsProtocolRegistrar` looks for. Linux WM_CLASS `NexusMusic` must match `StartupWMClass` in `conveyor.conf`.
+- **Official-build check off:** `MainActivity` no longer calls `SharedViewModel.checkOfficialBuild`, because it only accepts `com.maxrave.simpmusic` signed with SimpMusic's F-Droid key. `Config.OFFICIAL_PACKAGE_NAMES` in `core/` is untouched.
+- **Launcher icon:** `mipmap-anydpi-v26/ic_launcher(_round).xml` → `drawable/ic_launcher_background.xml`, `ic_launcher_foreground.xml` and `ic_launcher_monochrome.xml` (placeholder vectors, 108dp; keep the logo inside the central 66dp). The SimpMusic launcher webps were removed. vivoAndroidApp shares androidApp's `res`, so it gets the same name and icon.
+- **Still SimpMusic on purpose:** simpmusic.org URLs and services (SimpMusic Lyrics, Charts, the import converter and format), the `simpmusic://` and `wordbyword://` schemes and `simpmusic.org/app/` links, the update checker's "SimpMusic GitHub Release" channel, network user agents, file and folder names (`Download/SimpMusic`, `SimpMusic_*.png`, `~/.simpmusic`) and non-English translations (Crowdin).
+
 ## 🔄 CLAUDE.md Auto-Update Rule (MANDATORY)
 
 After completing any of the following types of changes, the AI agent **MUST** update this CLAUDE.md file:
@@ -1143,6 +1153,6 @@ After completing any of the following types of changes, the AI agent **MUST** up
 
 *This document helps AI Agents quickly understand the SimpMusic project. Update regularly when there are major changes to architecture or structure.*
 
-**Last updated**: 2026-11-03
+**Last updated**: 2026-11-05
 **Project version**: Check latest release on GitHub
 **Maintained by**: maxrave-dev and contributors
