@@ -13,6 +13,7 @@ import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.unit.Dp
@@ -56,17 +57,49 @@ object GlassDefaults {
      */
     const val FallbackAlpha: Float = 0.9f
 
+    /** Alpha of [tint] in dark theme. See [tint] for why it is this high. */
+    const val DarkTintAlpha: Float = 0.78f
+
+    /** Alpha of [tint] in light theme. See [tint] for why it is this high. */
+    const val LightTintAlpha: Float = 0.72f
+
+    /** Near-black base of the dark tint, Apple's systemBackground in dark mode. */
+    val DarkTintBase: Color = Color(0xFF1C1C1E)
+
     /**
      * The default wash over the blur: near-black in dark theme, white in light, matching the
-     * system materials Apple layers over a blur. Kept translucent so the artwork's colour still
-     * comes through.
+     * system materials Apple layers over a blur.
+     *
+     * The alphas are set by WCAG AA (4.5:1) in the worst case, not by taste. Dark: secondary text
+     * (onSurfaceVariant, about #C7C7C7) over the tint over a blurred pure-white area needs the
+     * composite at or below about #4E4E4E, which takes alpha 0.78 of #1C1C1E. Light: onSurfaceVariant
+     * (#474747) over the tint over a blurred pure-black area needs the composite at or above about
+     * #B8B8B8, which takes 0.72 of white. Lower alphas look more like glass and fail on exactly the
+     * bright or dark artwork this app is full of.
      */
     fun tint(isDark: Boolean): Color =
         if (isDark) {
-            Color(0xFF1C1C1E).copy(alpha = 0.45f)
+            DarkTintBase.copy(alpha = DarkTintAlpha)
         } else {
-            Color.White.copy(alpha = 0.55f)
+            Color.White.copy(alpha = LightTintAlpha)
         }
+
+    /**
+     * Wash for static tiles ([glassTile]), which sit on the page background rather than on a blur.
+     * They only need to lift off the page, so they are much lighter than [tint]; the text on them
+     * is the page's own text over a near-page colour, so contrast is the page's. Light theme
+     * darkens a touch instead of lightening: a white wash on the #FAFAFA page would not show.
+     */
+    fun tileTint(isDark: Boolean): Color =
+        if (isDark) {
+            Color.White.copy(alpha = 0.07f)
+        } else {
+            Color.Black.copy(alpha = 0.035f)
+        }
+
+    /** Rim for static tiles: the lit [edgeBrush] on dark, a plain dark hairline on a light page. */
+    fun tileEdge(isDark: Boolean): Brush =
+        if (isDark) edgeBrush(isDark = true) else SolidColor(Color.Black.copy(alpha = 0.08f))
 
     /** Rim that is brightest at the top-left, where light would catch a pane of glass. */
     fun edgeBrush(isDark: Boolean): Brush =

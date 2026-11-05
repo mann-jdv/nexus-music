@@ -47,10 +47,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -129,7 +127,6 @@ import com.maxrave.simpmusic.extension.getScreenSizeInfo
 import com.maxrave.simpmusic.extension.isScrollingUp
 import com.maxrave.simpmusic.extension.mouseDragScroll
 import com.maxrave.simpmusic.extension.rgbFactor
-import com.maxrave.simpmusic.extension.ultraThinBarStyle
 import com.maxrave.simpmusic.getPlatform
 import com.maxrave.simpmusic.ui.component.BlogPromoDialog
 import com.maxrave.simpmusic.ui.component.CenterLoadingBox
@@ -191,8 +188,6 @@ import com.maxrave.simpmusic.viewModel.HomeViewModel.Companion.HOME_PARAMS_SLEEP
 import com.maxrave.simpmusic.viewModel.HomeViewModel.Companion.HOME_PARAMS_WORKOUT
 import com.maxrave.simpmusic.viewModel.ListState
 import com.maxrave.simpmusic.viewModel.SharedViewModel
-import dev.chrisbanes.haze.HazeInput
-import dev.chrisbanes.haze.blur.hazeBlur
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
 import io.ktor.client.HttpClient
@@ -237,6 +232,9 @@ import simpmusic.composeapp.generated.resources.top_artists
 import simpmusic.composeapp.generated.resources.warning
 import simpmusic.composeapp.generated.resources.what_is_best_choice_today
 import simpmusic.composeapp.generated.resources.workout
+import com.maxrave.simpmusic.ui.component.glass.GlassAlertDialog
+import com.maxrave.simpmusic.ui.component.glass.GlassDropdownMenu
+import com.maxrave.simpmusic.ui.component.glass.glassBarBlur
 
 // DataStore key for blog-promo one-shot dialog. Bump the suffix (v2, v3, …) to re-promote.
 private const val BLOG_PROMO_KEY = "blog_promo_v1_seen"
@@ -684,7 +682,7 @@ fun HomeScreen(
         var doNotShowAgain by rememberSaveable {
             mutableStateOf(false)
         }
-        AlertDialog(
+        GlassAlertDialog(
             title = {
                 Text(stringResource(Res.string.warning))
             },
@@ -1052,7 +1050,7 @@ fun HomeScreen(
                                 Modifier.background(Color.Transparent)
                             } else {
                                 Modifier
-                                    .hazeBlur(HazeInput.Sources(hazeState), ultraThinBarStyle())
+                                    .glassBarBlur(hazeState)
                             },
                         ).onGloballyPositioned { coordinates ->
                             topAppBarHeightPx = coordinates.size.height
@@ -1238,7 +1236,7 @@ private fun HomeAccountButton(
             contentDescription = displayName,
             modifier = Modifier.clickable { menuOpen = true },
         )
-        DropdownMenu(
+        GlassDropdownMenu(
             expanded = menuOpen,
             onDismissRequest = { menuOpen = false },
             // The draft's 280dp (also Material's widest menu item) instead of wrapping its content,

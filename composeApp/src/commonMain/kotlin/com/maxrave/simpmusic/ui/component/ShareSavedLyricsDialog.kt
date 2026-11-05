@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalMinimumInteractiveComponentSize
@@ -41,6 +40,7 @@ import simpmusic.composeapp.generated.resources.help_build_lyrics_database_descr
 import simpmusic.composeapp.generated.resources.later
 import simpmusic.composeapp.generated.resources.ok
 import simpmusic.composeapp.generated.resources.use_anonymous
+import com.maxrave.simpmusic.ui.component.glass.GlassAlertDialog
 
 @Composable
 @ExperimentalMaterial3Api
@@ -60,7 +60,7 @@ fun ShareSavedLyricsDialog(
         mutableStateOf("")
     }
 
-    AlertDialog(
+    GlassAlertDialog(
         properties =
             DialogProperties(
                 dismissOnBackPress = false,

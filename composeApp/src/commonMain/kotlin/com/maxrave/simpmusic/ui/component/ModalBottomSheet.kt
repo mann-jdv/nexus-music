@@ -50,7 +50,6 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.BottomSheetDefaults
@@ -303,6 +302,8 @@ import simpmusic.composeapp.generated.resources.your_youtube_cookie
 import simpmusic.composeapp.generated.resources.your_youtube_playlists
 import simpmusic.composeapp.generated.resources.youtube_transcript
 import simpmusic.composeapp.generated.resources.youtube_url
+import com.maxrave.simpmusic.ui.component.glass.GlassModalBottomSheet
+import com.maxrave.simpmusic.ui.component.glass.GlassAlertDialog
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Sentinel value used by SleepTimerBottomSheet to signal "end of current song"
@@ -332,7 +333,7 @@ fun InfoPlayerBottomSheet(
     val extractSource by sharedViewModel.extractSource.collectAsState()
     val downloadProgress by sharedViewModel.downloadFileProgress.collectAsStateWithLifecycle()
 
-    ModalBottomSheet(
+    GlassModalBottomSheet(
         onDismissRequest = {
             onDismiss()
         },
@@ -478,6 +479,7 @@ fun InfoPlayerBottomSheet(
                     .fillMaxHeight(),
             shape = RectangleShape,
             colors = CardDefaults.cardColors().copy(containerColor = rememberSurfaceDarkColors().container),
+            border = rememberSurfaceDarkColors().border,
         ) {
             Column(
                 modifier =
@@ -1042,7 +1044,7 @@ fun QueueBottomSheet(
         )
     }
 
-    ModalBottomSheet(
+    GlassModalBottomSheet(
         onDismissRequest = {
             onDismiss()
         },
@@ -1062,6 +1064,7 @@ fun QueueBottomSheet(
                     .fillMaxHeight(),
             shape = RectangleShape,
             colors = CardDefaults.cardColors().copy(containerColor = rememberSurfaceDarkColors().container),
+            border = rememberSurfaceDarkColors().border,
         ) {
             Column(
                 modifier =
@@ -1463,7 +1466,7 @@ fun NowPlayingBottomSheet(
     }
 
     if (sleepTimerWarning) {
-        AlertDialog(
+        GlassAlertDialog(
             containerColor = rememberSurfaceDarkColors().container,
             onDismissRequest = { sleepTimerWarning = false },
             confirmButton = {
@@ -1505,7 +1508,7 @@ fun NowPlayingBottomSheet(
             )
         }
 
-        AlertDialog(
+        GlassAlertDialog(
             onDismissRequest = { mainLyricsProvider = false },
             containerColor = rememberSurfaceDarkColors().container,
             title = {
@@ -1595,7 +1598,7 @@ fun NowPlayingBottomSheet(
     }
 
     if (isBottomSheetVisible) {
-        ModalBottomSheet(
+        GlassModalBottomSheet(
             onDismissRequest = onDismiss,
             sheetState = modelBottomSheetState,
             containerColor = Color.Transparent,
@@ -1611,6 +1614,7 @@ fun NowPlayingBottomSheet(
                         .wrapContentHeight(),
                 shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
                 colors = CardDefaults.cardColors().copy(containerColor = rememberSurfaceDarkColors().container),
+                border = rememberSurfaceDarkColors().border,
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -2133,7 +2137,7 @@ fun PlaybackSpeedPitchBottomSheet(
 ) {
     val modelBottomSheetState =
         rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    ModalBottomSheet(
+    GlassModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = modelBottomSheetState,
         containerColor = Color.Transparent,
@@ -2146,6 +2150,7 @@ fun PlaybackSpeedPitchBottomSheet(
             modifier = Modifier.fillMaxWidth().wrapContentHeight(),
             shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
             colors = CardDefaults.cardColors().copy(containerColor = rememberSurfaceDarkColors().container),
+            border = rememberSurfaceDarkColors().border,
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -2308,7 +2313,7 @@ fun SleepTimerBottomSheet(
             else -> false
         }
 
-    ModalBottomSheet(
+    GlassModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = modelBottomSheetState,
         containerColor = Color.Transparent,
@@ -2321,6 +2326,7 @@ fun SleepTimerBottomSheet(
             modifier = Modifier.fillMaxWidth().wrapContentHeight(),
             shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
             colors = CardDefaults.cardColors().copy(containerColor = rememberSurfaceDarkColors().container),
+            border = rememberSurfaceDarkColors().border,
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -2582,7 +2588,7 @@ fun AddToPlaylistModalBottomSheet(
             }
         }
     if (isBottomSheetVisible) {
-        ModalBottomSheet(
+        GlassModalBottomSheet(
             onDismissRequest = onDismiss,
             sheetState = modelBottomSheetState,
             containerColor = Color.Transparent,
@@ -2599,6 +2605,7 @@ fun AddToPlaylistModalBottomSheet(
                         .wrapContentHeight(),
                 shape = BottomSheetDefaults.ExpandedShape,
                 colors = CardDefaults.cardColors().copy(containerColor = rememberSurfaceDarkColors().container),
+                border = rememberSurfaceDarkColors().border,
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -2835,7 +2842,7 @@ fun ArtistModalBottomSheet(
             }
         }
     if (isBottomSheetVisible) {
-        ModalBottomSheet(
+        GlassModalBottomSheet(
             onDismissRequest = onDismiss,
             sheetState = modelBottomSheetState,
             containerColor = Color.Transparent,
@@ -2848,6 +2855,7 @@ fun ArtistModalBottomSheet(
                 modifier = Modifier.fillMaxWidth().wrapContentHeight(),
                 shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
                 colors = CardDefaults.cardColors().copy(containerColor = rememberSurfaceDarkColors().container),
+                border = rememberSurfaceDarkColors().border,
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Spacer(modifier = Modifier.height(5.dp))
@@ -2928,7 +2936,7 @@ fun PlaylistBottomSheet(
                     onDismiss()
                 }
             }
-        ModalBottomSheet(
+        GlassModalBottomSheet(
             onDismissRequest = { showEditTitle = false },
             sheetState = showEditTitleSheetState,
             containerColor = Color.Transparent,
@@ -2941,6 +2949,7 @@ fun PlaylistBottomSheet(
                 modifier = Modifier.fillMaxWidth().wrapContentHeight(),
                 shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
                 colors = CardDefaults.cardColors().copy(containerColor = rememberSurfaceDarkColors().container),
+                border = rememberSurfaceDarkColors().border,
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Spacer(modifier = Modifier.height(5.dp))
@@ -2984,7 +2993,7 @@ fun PlaylistBottomSheet(
         }
     }
 
-    ModalBottomSheet(
+    GlassModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = modelBottomSheetState,
         containerColor = Color.Transparent,
@@ -2997,6 +3006,7 @@ fun PlaylistBottomSheet(
             modifier = Modifier.fillMaxWidth().wrapContentHeight(),
             shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
             colors = CardDefaults.cardColors().copy(containerColor = rememberSurfaceDarkColors().container),
+            border = rememberSurfaceDarkColors().border,
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Spacer(modifier = Modifier.height(5.dp))
@@ -3120,7 +3130,7 @@ fun LocalPlaylistBottomSheet(
                     onDismiss()
                 }
             }
-        ModalBottomSheet(
+        GlassModalBottomSheet(
             onDismissRequest = { showEditTitle = false },
             sheetState = showEditTitleSheetState,
             containerColor = Color.Transparent,
@@ -3133,6 +3143,7 @@ fun LocalPlaylistBottomSheet(
                 modifier = Modifier.fillMaxWidth().wrapContentHeight(),
                 shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
                 colors = CardDefaults.cardColors().copy(containerColor = rememberSurfaceDarkColors().container),
+                border = rememberSurfaceDarkColors().border,
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Spacer(modifier = Modifier.height(5.dp))
@@ -3170,7 +3181,7 @@ fun LocalPlaylistBottomSheet(
         }
     }
     if (isBottomSheetVisible) {
-        ModalBottomSheet(
+        GlassModalBottomSheet(
             onDismissRequest = onDismiss,
             sheetState = modelBottomSheetState,
             containerColor = Color.Transparent,
@@ -3183,6 +3194,7 @@ fun LocalPlaylistBottomSheet(
                 modifier = Modifier.fillMaxWidth().wrapContentHeight(),
                 shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
                 colors = CardDefaults.cardColors().copy(containerColor = rememberSurfaceDarkColors().container),
+                border = rememberSurfaceDarkColors().border,
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Spacer(modifier = Modifier.height(5.dp))
@@ -3268,7 +3280,7 @@ fun SortPlaylistBottomSheet(
             )
         }
 
-    ModalBottomSheet(
+    GlassModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = modelBottomSheetState,
         containerColor = Color.Transparent,
@@ -3281,6 +3293,7 @@ fun SortPlaylistBottomSheet(
             modifier = Modifier.fillMaxWidth().wrapContentHeight(),
             shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
             colors = CardDefaults.cardColors().copy(containerColor = rememberSurfaceDarkColors().container),
+            border = rememberSurfaceDarkColors().border,
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Spacer(modifier = Modifier.height(5.dp))
@@ -3349,7 +3362,7 @@ fun DevLogInBottomSheet(
 
     var value by rememberSaveable { mutableStateOf("") }
 
-    ModalBottomSheet(
+    GlassModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = modelBottomSheetState,
         containerColor = Color.Transparent,
@@ -3362,6 +3375,7 @@ fun DevLogInBottomSheet(
             modifier = Modifier.fillMaxWidth().wrapContentHeight(),
             shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
             colors = CardDefaults.cardColors().copy(containerColor = rememberSurfaceDarkColors().container),
+            border = rememberSurfaceDarkColors().border,
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Spacer(modifier = Modifier.height(5.dp))
@@ -3413,7 +3427,7 @@ fun DevCookieLogInBottomSheet(
     val modelBottomSheetState =
         rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-    ModalBottomSheet(
+    GlassModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = modelBottomSheetState,
         containerColor = Color.Transparent,
@@ -3426,6 +3440,7 @@ fun DevCookieLogInBottomSheet(
             modifier = Modifier.fillMaxWidth().wrapContentHeight(),
             shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
             colors = CardDefaults.cardColors().copy(containerColor = rememberSurfaceDarkColors().container),
+            border = rememberSurfaceDarkColors().border,
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Spacer(modifier = Modifier.height(5.dp))

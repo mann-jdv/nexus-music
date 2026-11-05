@@ -33,7 +33,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -133,6 +132,7 @@ import simpmusic.composeapp.generated.resources.recents
 import simpmusic.composeapp.generated.resources.search_in_your_library
 import simpmusic.composeapp.generated.resources.your_library
 import kotlin.reflect.KClass
+import com.maxrave.simpmusic.ui.component.glass.GlassDropdownMenu
 
 private val SidebarExpandedWidth = 280.dp
 private val SidebarCollapsedWidth = 72.dp
@@ -628,7 +628,7 @@ private fun LibraryFilterRow(
                 SimpIcons.FormatListBulleted,
                 stringResource(if (alphabetical) Res.string.alphabetical else Res.string.recents),
             ) { sortMenu = true }
-            DropdownMenu(expanded = sortMenu, onDismissRequest = { sortMenu = false }) {
+            GlassDropdownMenu(expanded = sortMenu, onDismissRequest = { sortMenu = false }) {
                 DropdownMenuItem(
                     text = { Text(stringResource(Res.string.recents), style = typo().bodyMedium) },
                     onClick = {

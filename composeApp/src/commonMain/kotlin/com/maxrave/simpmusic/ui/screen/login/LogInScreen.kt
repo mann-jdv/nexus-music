@@ -33,7 +33,6 @@ import com.maxrave.logger.Logger
 import com.maxrave.simpmusic.expect.ui.PlatformWebView
 import com.maxrave.simpmusic.expect.ui.createWebViewCookieManager
 import com.maxrave.simpmusic.expect.ui.rememberWebViewState
-import com.maxrave.simpmusic.extension.ultraThinBarStyle
 import com.maxrave.simpmusic.ui.component.DevLogInBottomSheet
 import com.maxrave.simpmusic.ui.component.DevLogInType
 import com.maxrave.simpmusic.ui.component.RippleIconButton
@@ -43,8 +42,6 @@ import com.maxrave.simpmusic.ui.icon.SimpIcons
 import com.maxrave.simpmusic.ui.theme.typo
 import com.maxrave.simpmusic.viewModel.LogInViewModel
 import com.maxrave.simpmusic.viewModel.SettingsViewModel
-import dev.chrisbanes.haze.HazeInput
-import dev.chrisbanes.haze.blur.hazeBlur
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
 import kotlinx.coroutines.launch
@@ -55,6 +52,7 @@ import simpmusic.composeapp.generated.resources.Res
 import simpmusic.composeapp.generated.resources.log_in
 import simpmusic.composeapp.generated.resources.login_failed
 import simpmusic.composeapp.generated.resources.login_success
+import com.maxrave.simpmusic.ui.component.glass.glassBarBlur
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -165,7 +163,7 @@ fun LoginScreen(
             modifier =
                 Modifier
                     .align(Alignment.TopCenter)
-                    .hazeBlur(HazeInput.Sources(hazeState), ultraThinBarStyle()),
+                    .glassBarBlur(hazeState),
             title = {
                 Text(
                     text = stringResource(Res.string.log_in),

@@ -27,7 +27,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -72,6 +71,7 @@ import simpmusic.composeapp.generated.resources.local_playlist
 import simpmusic.composeapp.generated.resources.playlist_name
 import simpmusic.composeapp.generated.resources.playlist_name_cannot_be_empty
 import simpmusic.composeapp.generated.resources.settings
+import com.maxrave.simpmusic.ui.component.glass.GlassModalBottomSheet
 
 /**
  * The top-bar "+" (Spotify's Create): a local playlist or a Listen Together room.
@@ -179,7 +179,7 @@ private fun CreateSheet(
     onPlaylist: () -> Unit,
     onListenTogether: () -> Unit,
 ) {
-    ModalBottomSheet(
+    GlassModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         containerColor = Color.Transparent,
@@ -286,7 +286,7 @@ fun CreateLocalPlaylistSheet(
     val coroutineScope = rememberCoroutineScope()
     var newTitle by remember { mutableStateOf("") }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    ModalBottomSheet(
+    GlassModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
         containerColor = Color.Transparent,

@@ -144,6 +144,7 @@ import simpmusic.composeapp.generated.resources.your_recently_played
 import simpmusic.composeapp.generated.resources.your_top_albums
 import simpmusic.composeapp.generated.resources.your_top_artists
 import simpmusic.composeapp.generated.resources.your_top_tracks
+import com.maxrave.simpmusic.ui.component.glass.GlassDropdownMenu
 
 /**
  * How far a section's own content is inset from the block it sits in.
@@ -555,7 +556,7 @@ private fun DayRangePill(
                 modifier = Modifier.size(18.dp),
             )
         }
-        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+        GlassDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             AnalyticsUiState.DayRange.entries.forEach { range ->
                 DropdownMenuItem(
                     text = {

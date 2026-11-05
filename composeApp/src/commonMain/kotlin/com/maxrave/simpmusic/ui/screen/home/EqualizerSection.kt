@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -57,6 +56,7 @@ import simpmusic.composeapp.generated.resources.equalizer_preset_custom
 import simpmusic.composeapp.generated.resources.equalizer_presets
 import simpmusic.composeapp.generated.resources.equalizer_reset
 import kotlin.math.roundToInt
+import com.maxrave.simpmusic.ui.component.glass.GlassDropdownMenu
 
 /** Gain limits, in dB. Past this it stops being tone shaping and starts being distortion. */
 private const val BAND_RANGE_DB = 12f
@@ -157,7 +157,7 @@ fun EqualizerSection(viewModel: SettingsViewModel = koinViewModel()) {
                         modifier = Modifier.size(20.dp),
                     )
                 }
-                DropdownMenu(expanded = presetMenuOpen, onDismissRequest = { presetMenuOpen = false }) {
+                GlassDropdownMenu(expanded = presetMenuOpen, onDismissRequest = { presetMenuOpen = false }) {
                     EQUALIZER_PRESETS.forEach { preset ->
                         DropdownMenuItem(
                             text = { Text(text = preset.name, style = typo().bodyMedium) },

@@ -50,7 +50,6 @@ import com.maxrave.domain.utils.LocalResource
 import com.maxrave.domain.utils.toArrayListTrack
 import com.maxrave.domain.utils.toTrack
 import com.maxrave.simpmusic.extension.getStringBlocking
-import com.maxrave.simpmusic.extension.ultraThinBarStyle
 import com.maxrave.simpmusic.ui.component.SearchBarExit
 import com.maxrave.simpmusic.ui.component.SearchBarEnter
 import com.maxrave.simpmusic.ui.component.AddToPlaylistModalBottomSheet
@@ -80,8 +79,6 @@ import com.maxrave.simpmusic.viewModel.AnalyticsViewModel
 import com.maxrave.simpmusic.viewModel.LibraryDynamicPlaylistViewModel
 import com.maxrave.simpmusic.viewModel.SongSelectionViewModel
 import com.maxrave.simpmusic.viewModel.SharedViewModel
-import dev.chrisbanes.haze.HazeInput
-import dev.chrisbanes.haze.blur.hazeBlur
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
 import com.maxrave.simpmusic.ui.screen.home.analytics.formatNumericSpan
@@ -114,6 +111,7 @@ import simpmusic.composeapp.generated.resources.wrapped_recap_subtitle
 import simpmusic.composeapp.generated.resources.your_top_albums
 import simpmusic.composeapp.generated.resources.your_top_artists
 import simpmusic.composeapp.generated.resources.your_top_tracks
+import com.maxrave.simpmusic.ui.component.glass.glassBarBlur
 
 @Composable
 @ExperimentalMaterial3Api
@@ -688,7 +686,7 @@ fun LibraryDynamicPlaylistScreen(
                 },
                 modifier =
                     Modifier
-                        .hazeBlur(HazeInput.Sources(hazeState), ultraThinBarStyle()),
+                        .glassBarBlur(hazeState),
                 colors =
                     TopAppBarDefaults.topAppBarColors(
                         containerColor = Color.Transparent,

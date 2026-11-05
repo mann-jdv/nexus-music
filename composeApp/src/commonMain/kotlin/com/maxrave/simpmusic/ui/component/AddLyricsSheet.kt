@@ -26,7 +26,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -75,6 +74,7 @@ import simpmusic.composeapp.generated.resources.add_lyrics_word_time_backwards
 import simpmusic.composeapp.generated.resources.line_synced
 import simpmusic.composeapp.generated.resources.rich_synced
 import simpmusic.composeapp.generated.resources.save
+import com.maxrave.simpmusic.ui.component.glass.GlassModalBottomSheet
 
 /**
  * Lyrics typed or pasted by hand for a song no provider has lyrics for: plain LRC, or eLRC timed
@@ -120,7 +120,7 @@ fun AddLyricsSheet(
             }
         }
 
-    ModalBottomSheet(
+    GlassModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
         containerColor = Color.Transparent,

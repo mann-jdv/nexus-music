@@ -136,6 +136,11 @@ import simpmusic.composeapp.generated.resources.radio
 import simpmusic.composeapp.generated.resources.subscribers
 import simpmusic.composeapp.generated.resources.wrapped_recap_subtitle
 import simpmusic.composeapp.generated.resources.you
+import androidx.compose.foundation.border
+import com.maxrave.simpmusic.ui.component.glass.GlassDefaults
+import com.maxrave.simpmusic.ui.component.glass.GlassShapes
+import com.maxrave.simpmusic.ui.theme.LocalIsDarkTheme
+import com.maxrave.simpmusic.ui.theme.LocalLiquidGlassEnabled
 
 @Composable
 fun HomeItem(
@@ -1249,17 +1254,29 @@ fun MoodMomentAndGenreHomeItem(
     fillMaxWidth: Boolean = false,
     onClick: () -> Unit,
 ) {
+    // Liquid Glass: a static glass tile (translucent wash, light rim, squircle, no shadow, no live
+    // blur). An elevation shadow would show through the translucent body as a dark smudge.
+    val glass = LocalLiquidGlassEnabled.current
+    val isDark = LocalIsDarkTheme.current
+    val shape = if (glass) GlassShapes.Small else RoundedCornerShape(5.dp)
     ElevatedCard(
         elevation =
             CardDefaults.cardElevation(
-                defaultElevation = 6.dp,
+                defaultElevation = if (glass) 0.dp else 6.dp,
             ),
+        colors =
+            if (glass) {
+                CardDefaults.elevatedCardColors(containerColor = GlassDefaults.tileTint(isDark))
+            } else {
+                CardDefaults.elevatedCardColors()
+            },
         onClick = onClick,
-        shape = RoundedCornerShape(5.dp),
+        shape = shape,
         modifier =
             (if (fillMaxWidth) Modifier.fillMaxWidth() else Modifier.width(160.dp))
                 .height(50.dp)
-                .padding(8.dp),
+                .padding(8.dp)
+                .then(if (glass) Modifier.border(GlassDefaults.EdgeWidth, GlassDefaults.tileEdge(isDark), shape) else Modifier),
     ) {
         Row {
             Box(

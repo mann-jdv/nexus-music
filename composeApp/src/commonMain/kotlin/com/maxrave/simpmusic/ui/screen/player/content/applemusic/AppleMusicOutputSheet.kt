@@ -25,7 +25,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -71,6 +70,7 @@ import simpmusic.composeapp.generated.resources.audio_output_playing_here
 import simpmusic.composeapp.generated.resources.audio_output_system_default
 import simpmusic.composeapp.generated.resources.audio_output_usb
 import simpmusic.composeapp.generated.resources.audio_output_wired
+import com.maxrave.simpmusic.ui.component.glass.GlassModalBottomSheet
 
 /**
  * [AppleMusicOutputSheet] wired straight to the player, for the Now Playing styles that only need
@@ -124,7 +124,7 @@ internal fun AppleMusicOutputSheet(
     // Devices coming and going update the list on their own; the system's own route changing does not.
     LaunchedEffect(Unit) { onRefresh() }
 
-    ModalBottomSheet(
+    GlassModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
         containerColor = Color.Transparent,

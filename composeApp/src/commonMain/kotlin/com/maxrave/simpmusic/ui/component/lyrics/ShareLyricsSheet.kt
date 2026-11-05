@@ -26,7 +26,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -78,6 +77,7 @@ import simpmusic.composeapp.generated.resources.share_lyrics_selected_count
 import simpmusic.composeapp.generated.resources.share_lyrics_share_action
 import simpmusic.composeapp.generated.resources.share_lyrics_share_failed
 import kotlin.random.Random
+import com.maxrave.simpmusic.ui.component.glass.GlassModalBottomSheet
 
 /**
  * Pick up to [MAX_SHARE_LYRIC_LINES] consecutive lines, preview the card they make, then save or
@@ -157,7 +157,7 @@ fun ShareLyricsSheet(
             }
         }
 
-    ModalBottomSheet(
+    GlassModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
         // The gradient is painted inside; a container colour here would sit under it as a seam.

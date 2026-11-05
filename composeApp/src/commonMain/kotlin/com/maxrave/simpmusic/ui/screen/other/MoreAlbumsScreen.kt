@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.maxrave.logger.Logger
-import com.maxrave.simpmusic.extension.ultraThinBarStyle
 import com.maxrave.simpmusic.ui.component.CenterLoadingBox
 import com.maxrave.simpmusic.ui.component.EndOfPage
 import com.maxrave.simpmusic.ui.component.HomeItemContentPlaylist
@@ -44,12 +43,11 @@ import com.maxrave.simpmusic.ui.navigation.destination.list.MoreAlbumsDestinatio
 import com.maxrave.simpmusic.ui.theme.typo
 import com.maxrave.simpmusic.viewModel.MoreAlbumsUIState
 import com.maxrave.simpmusic.viewModel.MoreAlbumsViewModel
-import dev.chrisbanes.haze.HazeInput
-import dev.chrisbanes.haze.blur.hazeBlur
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
 import org.koin.compose.viewmodel.koinViewModel
 import simpmusic.composeapp.generated.resources.Res
+import com.maxrave.simpmusic.ui.component.glass.glassBarBlur
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -129,7 +127,7 @@ fun MoreAlbumsScreen(
                 TopAppBar(
                     modifier =
                         Modifier
-                            .hazeBlur(HazeInput.Sources(hazeState), ultraThinBarStyle()),
+                            .glassBarBlur(hazeState),
                     title = {
                         Text(
                             text = state.title,

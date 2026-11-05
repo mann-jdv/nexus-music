@@ -42,7 +42,6 @@ import com.kmpalette.rememberDominantColorState
 import com.maxrave.simpmusic.Platform
 import com.maxrave.simpmusic.extension.angledGradientBackground
 import com.maxrave.simpmusic.extension.artworkScrimBrush
-import com.maxrave.simpmusic.extension.barBlurStyle
 import com.maxrave.simpmusic.extension.copy
 import com.maxrave.simpmusic.extension.rgbFactor
 import com.maxrave.simpmusic.getPlatform
@@ -51,8 +50,6 @@ import com.maxrave.simpmusic.ui.component.GridLibraryPlaylist
 import com.maxrave.simpmusic.ui.theme.desktopPanelDark
 import com.maxrave.simpmusic.ui.theme.typo
 import com.maxrave.simpmusic.viewModel.LibraryViewModel
-import dev.chrisbanes.haze.HazeInput
-import dev.chrisbanes.haze.blur.hazeBlur
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
 import io.ktor.client.HttpClient
@@ -63,6 +60,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import simpmusic.composeapp.generated.resources.Res
 import simpmusic.composeapp.generated.resources.mix_for_you
 import simpmusic.composeapp.generated.resources.no_mixes_found
+import com.maxrave.simpmusic.ui.component.glass.glassBarBlur
 
 /**
  * The YouTube "Mix for you" playlists, promoted out of the Library chip row into a tab of its own.
@@ -189,7 +187,7 @@ fun MixForYouScreen(
                         Modifier.background(Color.Transparent)
                     } else {
                         // AlbumScreen's bar recipe, thinned to 0.3 — see SettingScreen.
-                        Modifier.hazeBlur(HazeInput.Sources(hazeState), barBlurStyle(pageBackground, 0.3f))
+                        Modifier.glassBarBlur(hazeState, pageBackground, 0.3f)
                     },
                 ).onGloballyPositioned { coordinates ->
                     topAppBarHeight = with(density) { coordinates.size.height.toDp() }

@@ -29,7 +29,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -38,7 +37,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -103,6 +101,8 @@ import simpmusic.composeapp.generated.resources.reply
 import simpmusic.composeapp.generated.resources.replying_to
 import simpmusic.composeapp.generated.resources.retry
 import kotlin.math.roundToInt
+import com.maxrave.simpmusic.ui.component.glass.GlassModalBottomSheet
+import com.maxrave.simpmusic.ui.component.glass.GlassAlertDialog
 
 // The colour DescriptionView gives links and timestamps; "N replies" and "Show more replies" are links too.
 private val LinkColor = Color(0xFF00B0FF)
@@ -154,7 +154,7 @@ fun CommentsBottomSheet(
             onReply = { id -> signedIn { viewModel.startReply(id) } },
         )
 
-    ModalBottomSheet(
+    GlassModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
         containerColor = Color.Transparent,
@@ -246,7 +246,7 @@ fun CommentsBottomSheet(
             }
         }
         if (showLogIn) {
-            AlertDialog(
+            GlassAlertDialog(
                 title = { Text(stringResource(Res.string.log_in)) },
                 text = { Text(stringResource(Res.string.comments_log_in_message)) },
                 confirmButton = {

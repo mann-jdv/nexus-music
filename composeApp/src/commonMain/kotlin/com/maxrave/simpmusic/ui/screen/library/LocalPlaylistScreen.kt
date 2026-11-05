@@ -46,10 +46,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import com.maxrave.simpmusic.extension.barBlurStyle
 import com.maxrave.simpmusic.ui.component.DownloadingIndicator
 import com.maxrave.simpmusic.ui.icon.Search
 import com.maxrave.simpmusic.ui.icon.Close
@@ -168,8 +166,6 @@ import com.maxrave.simpmusic.viewModel.LocalPlaylistViewModel
 import com.maxrave.simpmusic.viewModel.SharedViewModel
 import com.maxrave.simpmusic.viewModel.SongSelectionViewModel
 import com.maxrave.simpmusic.viewModel.UIEvent
-import dev.chrisbanes.haze.HazeInput
-import dev.chrisbanes.haze.blur.hazeBlur
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -208,6 +204,8 @@ import simpmusic.composeapp.generated.resources.warning
 import simpmusic.composeapp.generated.resources.yes
 import simpmusic.composeapp.generated.resources.your_playlist
 import simpmusic.composeapp.generated.resources.search
+import com.maxrave.simpmusic.ui.component.glass.GlassAlertDialog
+import com.maxrave.simpmusic.ui.component.glass.glassBarBlur
 
 private const val TAG = "LocalPlaylistScreen"
 
@@ -1442,7 +1440,7 @@ fun LocalPlaylistScreen(
             },
             onOpenActions = { showSelectionSheet = true },
             modifier =
-                Modifier.hazeBlur(HazeInput.Sources(hazeState), barBlurStyle(mutedPaletteBg, 0.55f)),
+                Modifier.glassBarBlur(hazeState, mutedPaletteBg, 0.55f),
         )
     }
     if (showSelectionSheet) {
@@ -1543,7 +1541,7 @@ fun LocalPlaylistScreen(
         )
     }
     if (showSyncAlertDialog) {
-        AlertDialog(
+        GlassAlertDialog(
             containerColor = rememberSurfaceDarkColors().container,
             titleContentColor = rememberSurfaceDarkColors().content,
             textContentColor = rememberSurfaceDarkColors().content,
@@ -1568,7 +1566,7 @@ fun LocalPlaylistScreen(
         )
     }
     if (showUnsyncAlertDialog) {
-        AlertDialog(
+        GlassAlertDialog(
             containerColor = rememberSurfaceDarkColors().container,
             titleContentColor = rememberSurfaceDarkColors().content,
             textContentColor = rememberSurfaceDarkColors().content,
@@ -1615,7 +1613,7 @@ fun LocalPlaylistScreen(
             Box(
                 Modifier
                     .fillMaxWidth()
-                    .hazeBlur(HazeInput.Sources(hazeState), barBlurStyle(mutedPaletteBg, 0.55f)),
+                    .glassBarBlur(hazeState, mutedPaletteBg, 0.55f),
             ) {
                 Row(
                     modifier =
@@ -1739,7 +1737,7 @@ fun LocalPlaylistScreen(
                     containerColor = Color.Transparent,
                 ),
             modifier =
-                Modifier.hazeBlur(HazeInput.Sources(hazeState), barBlurStyle(mutedPaletteBg, 0.55f)),
+                Modifier.glassBarBlur(hazeState, mutedPaletteBg, 0.55f),
         )
     }
 }

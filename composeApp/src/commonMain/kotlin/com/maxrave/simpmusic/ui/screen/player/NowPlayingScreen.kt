@@ -27,7 +27,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -120,6 +119,7 @@ import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.abs
+import com.maxrave.simpmusic.ui.component.glass.GlassModalBottomSheet
 
 private const val TAG = "NowPlayingScreen"
 
@@ -149,7 +149,7 @@ fun NowPlayingScreen(
         }
     }
 
-    ModalBottomSheet(
+    GlassModalBottomSheet(
         modifier =
             Modifier
                 .fillMaxHeight(),

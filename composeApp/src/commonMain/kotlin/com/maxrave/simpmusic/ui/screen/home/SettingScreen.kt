@@ -47,7 +47,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -117,7 +116,6 @@ import com.maxrave.simpmusic.expect.ui.isLyricsBlurSupported
 import com.maxrave.simpmusic.expect.ui.isWallpaperDynamicColorSupported
 import com.maxrave.simpmusic.expect.ui.openEqResult
 import com.maxrave.simpmusic.expect.ui.rememberLocalNetworkPermission
-import com.maxrave.simpmusic.extension.barBlurStyle
 import com.maxrave.simpmusic.extension.bytesToMB
 import com.maxrave.simpmusic.extension.displayString
 import com.maxrave.simpmusic.extension.isTwoLetterCode
@@ -159,8 +157,6 @@ import com.mikepenz.aboutlibraries.ui.compose.LibraryDefaults
 import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
 import com.mikepenz.aboutlibraries.ui.compose.m3.libraryColors
 import com.mikepenz.aboutlibraries.ui.compose.produceLibraries
-import dev.chrisbanes.haze.HazeInput
-import dev.chrisbanes.haze.blur.hazeBlur
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
 import kotlinx.collections.immutable.toImmutableList
@@ -449,6 +445,9 @@ import simpmusic.composeapp.generated.resources.youtube_transcript
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import com.maxrave.simpmusic.ui.component.glass.GlassModalBottomSheet
+import com.maxrave.simpmusic.ui.component.glass.GlassAlertDialog
+import com.maxrave.simpmusic.ui.component.glass.glassBarBlur
 
 @OptIn(
     ExperimentalMaterial3Api::class,
@@ -2784,7 +2783,7 @@ fun SettingScreen(
     val basisAlertData by viewModel.basicAlertData.collectAsStateWithLifecycle()
     if (basisAlertData != null) {
         val alertBasicState = basisAlertData ?: return
-        AlertDialog(
+        GlassAlertDialog(
             onDismissRequest = { viewModel.setBasicAlertData(null) },
             title = {
                 Text(
@@ -2834,7 +2833,7 @@ fun SettingScreen(
             )
         var pendingHex by rememberSaveable { mutableStateOf(customThemeColorHex.takeLast(6)) }
         val parsedColor = parseThemeColorHex(pendingHex)
-        AlertDialog(
+        GlassAlertDialog(
             onDismissRequest = { showColorPickerDialog = false },
             title = { Text(text = stringResource(Res.string.custom_color), style = typo().titleSmall) },
             text = {
@@ -3064,7 +3063,7 @@ fun SettingScreen(
     if (alertData != null) {
         val alertState = alertData ?: return
         // AlertDialog
-        AlertDialog(
+        GlassAlertDialog(
             onDismissRequest = { viewModel.setAlertData(null) },
             title = {
                 Text(
@@ -3265,7 +3264,7 @@ fun SettingScreen(
                 },
             )
         val coroutineScope = rememberCoroutineScope()
-        ModalBottomSheet(
+        GlassModalBottomSheet(
             modifier =
                 Modifier
                     .fillMaxHeight(),
@@ -3356,7 +3355,7 @@ fun SettingScreen(
             // The house recipe from AlbumScreen's bars, thinned: ultraThin's built-in tint stacked
             // on this page's dark ground read as a solid lid. 0.3 keeps the blur doing the work and
             // the tint only settling legibility.
-            modifier = Modifier.hazeBlur(HazeInput.Sources(hazeState), barBlurStyle(settingBarTint, 0.3f)),
+            modifier = Modifier.glassBarBlur(hazeState, settingBarTint, 0.3f),
         )
     }
 }
@@ -3412,7 +3411,7 @@ private fun ImportProgressDialog(
     onDismiss: () -> Unit,
 ) {
     val finished = progress is ImportProgress.Success || progress is ImportProgress.Error
-    AlertDialog(
+    GlassAlertDialog(
         onDismissRequest = { if (finished) onDismiss() },
         properties =
             DialogProperties(

@@ -1,6 +1,5 @@
 package com.maxrave.simpmusic.ui.component
 
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -18,6 +17,7 @@ import simpmusic.composeapp.generated.resources.blog_promo_title
 import simpmusic.composeapp.generated.resources.later
 import simpmusic.composeapp.generated.resources.mono
 import simpmusic.composeapp.generated.resources.visit_blog
+import com.maxrave.simpmusic.ui.component.glass.GlassAlertDialog
 
 @Composable
 @ExperimentalMaterial3Api
@@ -26,7 +26,7 @@ fun BlogPromoDialog(
     onVisitBlog: () -> Unit,
 ) {
     val uriHandler = LocalUriHandler.current
-    AlertDialog(
+    GlassAlertDialog(
         properties =
             DialogProperties(
                 dismissOnBackPress = true,

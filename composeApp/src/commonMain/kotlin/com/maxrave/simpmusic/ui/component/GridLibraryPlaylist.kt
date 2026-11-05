@@ -69,6 +69,7 @@ import org.jetbrains.compose.resources.stringResource
 import simpmusic.composeapp.generated.resources.Res
 import simpmusic.composeapp.generated.resources.create
 import kotlin.math.roundToInt
+import com.maxrave.simpmusic.ui.component.glass.glassTile
 
 /**
  * Columns for every grid built on [GridLibraryPlaylist] — the Library tabs, Wrapped and Mix for you.
@@ -171,7 +172,7 @@ internal inline fun <reified T> GridLibraryPlaylist(
                         item {
                             Box(
                                 modifier =
-                                    Modifier.clickable {
+                                    Modifier.glassTile().clickable {
                                         createNewPlaylist()
                                     },
                             ) {
@@ -228,82 +229,85 @@ internal inline fun <reified T> GridLibraryPlaylist(
                         if (item !is PlaylistType) {
                             return@items
                         }
-                        HomeItemContentPlaylist(
-                            onClick = {
-                                when (item) {
-                                    is ChartItem -> {
-                                        navController.navigate(
-                                            PlaylistDestination(
-                                                playlistId = item.ytPlaylistId,
-                                                isYourYouTubePlaylist = false,
-                                            ),
-                                        )
-                                    }
+                        // Liquid Glass: each tile sits on a static glass panel; a plain Box otherwise.
+                        Box(Modifier.glassTile()) {
+                            HomeItemContentPlaylist(
+                                onClick = {
+                                    when (item) {
+                                        is ChartItem -> {
+                                            navController.navigate(
+                                                PlaylistDestination(
+                                                    playlistId = item.ytPlaylistId,
+                                                    isYourYouTubePlaylist = false,
+                                                ),
+                                            )
+                                        }
 
-                                    is LocalPlaylistEntity -> {
-                                        navController.navigate(
-                                            LocalPlaylistDestination(
-                                                item.id,
-                                            ),
-                                        )
-                                    }
+                                        is LocalPlaylistEntity -> {
+                                            navController.navigate(
+                                                LocalPlaylistDestination(
+                                                    item.id,
+                                                ),
+                                            )
+                                        }
 
-                                    is PlaylistsResult -> {
-                                        navController.navigate(
-                                            PlaylistDestination(
-                                                item.browseId,
-                                                isYourYouTubePlaylist = true,
-                                            ),
-                                        )
-                                    }
+                                        is PlaylistsResult -> {
+                                            navController.navigate(
+                                                PlaylistDestination(
+                                                    item.browseId,
+                                                    isYourYouTubePlaylist = true,
+                                                ),
+                                            )
+                                        }
 
-                                    is AlbumEntity -> {
-                                        navController.navigate(
-                                            AlbumDestination(
-                                                item.browseId,
-                                            ),
-                                        )
-                                    }
+                                        is AlbumEntity -> {
+                                            navController.navigate(
+                                                AlbumDestination(
+                                                    item.browseId,
+                                                ),
+                                            )
+                                        }
 
-                                    is PlaylistEntity -> {
-                                        navController.navigate(
-                                            PlaylistDestination(
-                                                item.id,
-                                            ),
-                                        )
-                                    }
+                                        is PlaylistEntity -> {
+                                            navController.navigate(
+                                                PlaylistDestination(
+                                                    item.id,
+                                                ),
+                                            )
+                                        }
 
-                                    is PodcastsEntity -> {
-                                        navController.navigate(
-                                            PodcastDestination(
-                                                podcastId = item.podcastId,
-                                            ),
-                                        )
-                                    }
+                                        is PodcastsEntity -> {
+                                            navController.navigate(
+                                                PodcastDestination(
+                                                    podcastId = item.podcastId,
+                                                ),
+                                            )
+                                        }
 
-                                    // The recap is not a stored playlist — it is a query over
-                                    // `playback_event` — so it opens the dynamic playlist screen,
-                                    // which rebuilds it from the year and month carried here.
-                                    is MonthlyRecapItem -> {
-                                        navController.navigate(
-                                            LibraryDynamicPlaylistDestination(
-                                                type =
-                                                    LibraryDynamicPlaylistType
-                                                        .MonthlyRecap(
-                                                            year = item.year,
-                                                            month = item.month,
-                                                        ).toStringParams(),
-                                            ),
-                                        )
+                                        // The recap is not a stored playlist — it is a query over
+                                        // `playback_event` — so it opens the dynamic playlist screen,
+                                        // which rebuilds it from the year and month carried here.
+                                        is MonthlyRecapItem -> {
+                                            navController.navigate(
+                                                LibraryDynamicPlaylistDestination(
+                                                    type =
+                                                        LibraryDynamicPlaylistType
+                                                            .MonthlyRecap(
+                                                                year = item.year,
+                                                                month = item.month,
+                                                            ).toStringParams(),
+                                                ),
+                                            )
+                                        }
                                     }
-                                }
-                            },
-                            data = item,
-                            thumbSize = 132.dp,
-                            // The cell decides the width now, so the artwork follows it instead of
-                            // being pinned to thumbSize and cropped by a narrower cell.
-                            fillMaxWidth = true,
-                        )
+                                },
+                                data = item,
+                                thumbSize = 132.dp,
+                                // The cell decides the width now, so the artwork follows it instead of
+                                // being pinned to thumbSize and cropped by a narrower cell.
+                                fillMaxWidth = true,
+                            )
+                        }
                     }
 
                     item(span = { GridItemSpan(maxLineSpan) }) {

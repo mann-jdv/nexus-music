@@ -62,7 +62,6 @@ import coil3.request.CachePolicy
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.maxrave.domain.data.entities.NotificationEntity
-import com.maxrave.simpmusic.extension.barBlurStyle
 import com.maxrave.simpmusic.extension.formatTimeAgo
 import com.maxrave.simpmusic.extension.mouseDragScroll
 import com.maxrave.simpmusic.ui.component.AmbientThemeGlow
@@ -77,8 +76,6 @@ import com.maxrave.simpmusic.ui.navigation.destination.list.AlbumDestination
 import com.maxrave.simpmusic.ui.navigation.destination.list.ArtistDestination
 import com.maxrave.simpmusic.ui.theme.typo
 import com.maxrave.simpmusic.viewModel.NotificationViewModel
-import dev.chrisbanes.haze.HazeInput
-import dev.chrisbanes.haze.blur.hazeBlur
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
 import org.jetbrains.compose.resources.stringResource
@@ -89,6 +86,7 @@ import simpmusic.composeapp.generated.resources.new_release
 import simpmusic.composeapp.generated.resources.no_notification
 import simpmusic.composeapp.generated.resources.notification
 import simpmusic.composeapp.generated.resources.singles
+import com.maxrave.simpmusic.ui.component.glass.glassBarBlur
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -184,7 +182,7 @@ fun NotificationScreen(
                         Modifier
                     } else {
                         // AlbumScreen's bar recipe, thinned to 0.3 — see SettingScreen.
-                        Modifier.hazeBlur(HazeInput.Sources(hazeState), barBlurStyle(barTint, 0.3f))
+                        Modifier.glassBarBlur(hazeState, barTint, 0.3f)
                     },
                 ).onGloballyPositioned { coordinates ->
                     topAppBarHeight = with(density) { coordinates.size.height.toDp() }

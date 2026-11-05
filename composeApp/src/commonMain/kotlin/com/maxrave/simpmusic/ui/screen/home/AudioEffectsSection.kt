@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
@@ -67,6 +66,7 @@ import simpmusic.composeapp.generated.resources.reverb_preset_plate
 import simpmusic.composeapp.generated.resources.reverb_preset_room
 import kotlin.math.abs
 import kotlin.math.roundToInt
+import com.maxrave.simpmusic.ui.component.glass.GlassAlertDialog
 
 /**
  * Width of the number beside each slider.
@@ -271,7 +271,7 @@ fun ReverbSection(viewModel: SettingsViewModel = koinViewModel()) {
  */
 @Composable
 private fun ReverbHelpDialog(onDismiss: () -> Unit) {
-    AlertDialog(
+    GlassAlertDialog(
         onDismissRequest = onDismiss,
         title = {
             Text(

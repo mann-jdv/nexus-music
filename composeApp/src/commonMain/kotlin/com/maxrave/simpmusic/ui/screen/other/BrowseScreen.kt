@@ -60,7 +60,6 @@ import com.maxrave.domain.utils.toTrack
 import com.maxrave.simpmusic.Platform
 import com.maxrave.simpmusic.extension.angledGradientBackground
 import com.maxrave.simpmusic.extension.artworkScrimBrush
-import com.maxrave.simpmusic.extension.barBlurStyle
 import com.maxrave.simpmusic.extension.rgbFactor
 import com.maxrave.simpmusic.getPlatform
 import com.maxrave.simpmusic.ui.component.AmbientGlowHeight
@@ -78,14 +77,13 @@ import com.maxrave.simpmusic.ui.theme.desktopPanelDark
 import com.maxrave.simpmusic.ui.theme.typo
 import com.maxrave.simpmusic.viewModel.BrowseUIState
 import com.maxrave.simpmusic.viewModel.BrowseViewModel
-import dev.chrisbanes.haze.HazeInput
-import dev.chrisbanes.haze.blur.hazeBlur
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.http.Url
 import org.koin.compose.viewmodel.koinViewModel
+import com.maxrave.simpmusic.ui.component.glass.glassBarBlur
 
 private val RowGap = 10.dp
 
@@ -300,7 +298,7 @@ fun BrowseScreen(
                     if (atTop) {
                         Modifier.background(Color.Transparent)
                     } else {
-                        Modifier.hazeBlur(HazeInput.Sources(hazeState), barBlurStyle(pageBackground, 0.3f))
+                        Modifier.glassBarBlur(hazeState, pageBackground, 0.3f)
                     },
                 ),
             ) {

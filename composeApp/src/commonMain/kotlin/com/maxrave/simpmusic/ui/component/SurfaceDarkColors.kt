@@ -1,10 +1,14 @@
 package com.maxrave.simpmusic.ui.component
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
+import com.maxrave.simpmusic.ui.component.glass.GlassPopupDefaults
 import com.maxrave.simpmusic.ui.theme.LocalForceDarkText
+import com.maxrave.simpmusic.ui.theme.LocalLiquidGlassEnabled
 
 /**
  * Color set for overlay surfaces (bottom sheets & dialogs) that must **inherit force-dark** from the
@@ -25,26 +29,37 @@ data class SurfaceDarkColors(
     val content: Color, // primary text + icons (old white)
     val subtitle: Color, // secondary text (old #B0B0A0 / #CCCCCC / #D0D0C0)
     val disabled: Color, // disabled text/icons + dividers (old gray / #555555 / #3D3D3D)
+    // Light rim for the sheet/dialog body; null (no border) unless Liquid Glass is on.
+    val border: BorderStroke? = null,
 )
 
 @Composable
 fun rememberSurfaceDarkColors(): SurfaceDarkColors {
     val cs = MaterialTheme.colorScheme
-    return if (LocalForceDarkText.current) {
-        SurfaceDarkColors(
-            container = Color(0xFF242424),
-            handle = Color(0xFF474545),
-            content = Color.White,
-            subtitle = Color(0xFFB0B0A0),
-            disabled = Color.Gray,
-        )
-    } else {
-        SurfaceDarkColors(
-            container = cs.surfaceContainerLow,
-            handle = cs.outlineVariant,
-            content = cs.onSurface,
-            subtitle = cs.onSurfaceVariant,
-            disabled = cs.onSurfaceVariant.copy(alpha = 0.38f),
-        )
-    }
+    val colors =
+        if (LocalForceDarkText.current) {
+            SurfaceDarkColors(
+                container = Color(0xFF242424),
+                handle = Color(0xFF474545),
+                content = Color.White,
+                subtitle = Color(0xFFB0B0A0),
+                disabled = Color.Gray,
+            )
+        } else {
+            SurfaceDarkColors(
+                container = cs.surfaceContainerLow,
+                handle = cs.outlineVariant,
+                content = cs.onSurface,
+                subtitle = cs.onSurfaceVariant,
+                disabled = cs.onSurfaceVariant.copy(alpha = 0.38f),
+            )
+        }
+    // Liquid Glass: the body turns translucent (readable on its own, see GlassPopupDefaults.container)
+    // and gains the light rim. Content colours are untouched, so text stays where it was.
+    if (!LocalLiquidGlassEnabled.current) return colors
+    val isDark = LocalForceDarkText.current || colors.content.luminance() > 0.5f
+    return colors.copy(
+        container = GlassPopupDefaults.container(isDark),
+        border = GlassPopupDefaults.border(isDark),
+    )
 }

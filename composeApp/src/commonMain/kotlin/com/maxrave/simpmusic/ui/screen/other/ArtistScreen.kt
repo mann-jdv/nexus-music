@@ -99,7 +99,6 @@ import com.maxrave.simpmusic.expect.ui.layerBackdrop
 import com.maxrave.simpmusic.expect.ui.rememberBackdrop
 import com.maxrave.simpmusic.expect.ui.toImageBitmap
 import com.maxrave.simpmusic.extension.artworkScrimBrush
-import com.maxrave.simpmusic.extension.barBlurStyle
 import com.maxrave.simpmusic.extension.getColorFromPalette
 import com.maxrave.simpmusic.extension.getScreenSizeInfo
 import com.maxrave.simpmusic.extension.mouseDragScroll
@@ -144,8 +143,6 @@ import com.maxrave.simpmusic.viewModel.ArtistScreenState
 import com.maxrave.simpmusic.viewModel.ArtistViewModel
 import com.maxrave.simpmusic.viewModel.SharedViewModel
 import com.maxrave.simpmusic.viewModel.SongSelectionViewModel
-import dev.chrisbanes.haze.HazeInput
-import dev.chrisbanes.haze.blur.hazeBlur
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
 import kotlinx.coroutines.flow.map
@@ -173,6 +170,7 @@ import simpmusic.composeapp.generated.resources.share
 import simpmusic.composeapp.generated.resources.singles
 import simpmusic.composeapp.generated.resources.unknown
 import simpmusic.composeapp.generated.resources.videos
+import com.maxrave.simpmusic.ui.component.glass.glassBarBlur
 
 @Composable
 @ExperimentalMaterial3Api
@@ -724,7 +722,7 @@ fun ArtistScreen(
                                     containerColor = Color.Transparent,
                                 ),
                             modifier =
-                                Modifier.hazeBlur(HazeInput.Sources(hazeState), barBlurStyle(mutedPaletteBg, 0.55f)),
+                                Modifier.glassBarBlur(hazeState, mutedPaletteBg, 0.55f),
                         )
                     }
                 }

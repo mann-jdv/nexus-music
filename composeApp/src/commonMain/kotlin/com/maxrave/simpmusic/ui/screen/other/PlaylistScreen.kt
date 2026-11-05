@@ -85,7 +85,6 @@ import coil3.request.crossfade
 import coil3.toBitmap
 import com.kyant.backdrop.highlight.Highlight
 import com.kmpalette.rememberPaletteState
-import com.maxrave.simpmusic.extension.barBlurStyle
 import com.maxrave.simpmusic.ui.component.DownloadingIndicator
 import com.maxrave.domain.data.entities.DownloadState
 import com.maxrave.domain.data.model.browse.album.Track
@@ -137,8 +136,6 @@ import com.maxrave.simpmusic.viewModel.PlaylistViewModel
 import com.maxrave.simpmusic.viewModel.SharedViewModel
 import com.maxrave.simpmusic.viewModel.SongSelectionViewModel
 import com.maxrave.simpmusic.viewModel.UIEvent
-import dev.chrisbanes.haze.HazeInput
-import dev.chrisbanes.haze.blur.hazeBlur
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -161,6 +158,7 @@ import simpmusic.composeapp.generated.resources.playlist
 import simpmusic.composeapp.generated.resources.radio
 import simpmusic.composeapp.generated.resources.search
 import simpmusic.composeapp.generated.resources.unlimited
+import com.maxrave.simpmusic.ui.component.glass.glassBarBlur
 
 @OptIn(ExperimentalCoroutinesApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -1173,7 +1171,7 @@ fun PlaylistScreen(
                         Modifier
                             .fillMaxWidth()
                             .onGloballyPositioned { searchBarHeightPx = it.size.height }
-                            .hazeBlur(HazeInput.Sources(hazeState), barBlurStyle(mutedPaletteBg, 0.55f)),
+                            .glassBarBlur(hazeState, mutedPaletteBg, 0.55f),
                     ) {
                         Row(
                             modifier =
@@ -1243,7 +1241,7 @@ fun PlaylistScreen(
                         },
                         onOpenActions = { showSelectionSheet = true },
                         modifier =
-                            Modifier.hazeBlur(HazeInput.Sources(hazeState), barBlurStyle(mutedPaletteBg, 0.55f)),
+                            Modifier.glassBarBlur(hazeState, mutedPaletteBg, 0.55f),
                     )
                 }
                 if (showSelectionSheet) {
@@ -1373,7 +1371,7 @@ fun PlaylistScreen(
                                 containerColor = Color.Transparent,
                             ),
                         modifier =
-                            Modifier.hazeBlur(HazeInput.Sources(hazeState), barBlurStyle(mutedPaletteBg, 0.55f)),
+                            Modifier.glassBarBlur(hazeState, mutedPaletteBg, 0.55f),
                     )
                 }
             }

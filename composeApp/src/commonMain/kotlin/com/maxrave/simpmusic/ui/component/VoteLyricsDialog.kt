@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,6 +29,7 @@ import simpmusic.composeapp.generated.resources.rate_lyrics
 import simpmusic.composeapp.generated.resources.rate_translated_lyrics
 import simpmusic.composeapp.generated.resources.upvote
 import simpmusic.composeapp.generated.resources.vote_for_lyrics
+import com.maxrave.simpmusic.ui.component.glass.GlassAlertDialog
 
 @Composable
 fun VoteLyricsDialog(
@@ -41,7 +41,7 @@ fun VoteLyricsDialog(
     onVoteTranslatedLyrics: (upvote: Boolean) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    AlertDialog(
+    GlassAlertDialog(
         containerColor = rememberSurfaceDarkColors().container,
         titleContentColor = rememberSurfaceDarkColors().content,
         textContentColor = rememberSurfaceDarkColors().content,

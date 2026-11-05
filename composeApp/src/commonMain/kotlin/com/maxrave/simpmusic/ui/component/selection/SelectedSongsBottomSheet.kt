@@ -13,7 +13,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -43,6 +42,7 @@ import simpmusic.composeapp.generated.resources.download
 import simpmusic.composeapp.generated.resources.favorite
 import simpmusic.composeapp.generated.resources.n_songs_selected
 import simpmusic.composeapp.generated.resources.play_next
+import com.maxrave.simpmusic.ui.component.glass.GlassModalBottomSheet
 
 /**
  * One row in [SelectedSongsBottomSheet] that only some screens have — "remove from playlist"
@@ -82,7 +82,7 @@ fun SelectedSongsBottomSheet(
         }
     }
 
-    ModalBottomSheet(
+    GlassModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
         containerColor = Color.Transparent,

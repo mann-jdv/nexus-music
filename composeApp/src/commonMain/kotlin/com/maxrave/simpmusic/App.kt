@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -118,6 +117,7 @@ import simpmusic.composeapp.generated.resources.this_app_needs_to_access_your_no
 import simpmusic.composeapp.generated.resources.this_link_is_not_supported
 import simpmusic.composeapp.generated.resources.yes
 import kotlin.time.ExperimentalTime
+import com.maxrave.simpmusic.ui.component.glass.GlassAlertDialog
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class, ExperimentalFoundationApi::class)
 @Composable
@@ -833,7 +833,7 @@ fun App(
 
                 if (sleepTimerState.isDone) {
                     Logger.w("MainActivity", "Sleep Timer Done: $sleepTimerState")
-                    AlertDialog(
+                    GlassAlertDialog(
                         properties =
                             DialogProperties(
                                 dismissOnBackPress = false,
@@ -876,7 +876,7 @@ fun App(
                             viewModel.dismissNotificationPermissionDialog(doNotShowAgain)
                         }
                     }
-                    AlertDialog(
+                    GlassAlertDialog(
                         onDismissRequest = {
                             dismissPermissionDialog()
                         },

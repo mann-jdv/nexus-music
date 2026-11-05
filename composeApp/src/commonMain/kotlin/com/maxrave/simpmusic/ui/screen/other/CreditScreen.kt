@@ -44,7 +44,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.maxrave.domain.extension.now
 import com.maxrave.simpmusic.expect.openUrl
-import com.maxrave.simpmusic.extension.ultraThinBarStyle
 import com.maxrave.simpmusic.ui.component.RippleIconButton
 import com.maxrave.simpmusic.ui.icon.ArrowBackIosNew
 import com.maxrave.simpmusic.ui.icon.SimpIcons
@@ -52,13 +51,12 @@ import com.maxrave.simpmusic.ui.theme.typo
 import com.maxrave.simpmusic.utils.VersionManager
 import com.mikepenz.markdown.m3.Markdown
 import com.mikepenz.markdown.m3.markdownTypography
-import dev.chrisbanes.haze.HazeInput
-import dev.chrisbanes.haze.blur.hazeBlur
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import simpmusic.composeapp.generated.resources.*
+import com.maxrave.simpmusic.ui.component.glass.glassBarBlur
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -252,7 +250,7 @@ fun CreditScreen(
     TopAppBar(
         modifier =
             Modifier
-                .hazeBlur(HazeInput.Sources(hazeState), ultraThinBarStyle()),
+                .glassBarBlur(hazeState),
         title = {
             Text(
                 text = stringResource(Res.string.app_name),

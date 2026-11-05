@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -48,6 +47,7 @@ import simpmusic.composeapp.generated.resources.equalizer_autoeq_empty
 import simpmusic.composeapp.generated.resources.equalizer_autoeq_failed
 import simpmusic.composeapp.generated.resources.equalizer_autoeq_search
 import simpmusic.composeapp.generated.resources.equalizer_autoeq_unavailable
+import com.maxrave.simpmusic.ui.component.glass.GlassDropdownMenu
 
 private val MENU_LIST_MAX_HEIGHT = 280.dp
 
@@ -107,7 +107,7 @@ fun AutoEqPicker(
             )
         }
 
-        DropdownMenu(expanded = open, onDismissRequest = { open = false }) {
+        GlassDropdownMenu(expanded = open, onDismissRequest = { open = false }) {
             Column(modifier = Modifier.width(320.dp).padding(horizontal = 12.dp)) {
                 OutlinedTextField(
                     value = query,

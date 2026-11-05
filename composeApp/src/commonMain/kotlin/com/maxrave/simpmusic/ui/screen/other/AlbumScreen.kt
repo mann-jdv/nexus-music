@@ -68,7 +68,6 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.kmpalette.rememberPaletteState
 import com.kyant.backdrop.highlight.Highlight
-import com.maxrave.simpmusic.extension.barBlurStyle
 import com.maxrave.simpmusic.ui.component.DownloadingIndicator
 import com.maxrave.domain.data.entities.DownloadState
 import com.maxrave.domain.data.model.browse.album.Track
@@ -113,8 +112,6 @@ import com.maxrave.simpmusic.viewModel.LocalPlaylistState
 import com.maxrave.simpmusic.viewModel.SharedViewModel
 import com.maxrave.simpmusic.viewModel.SongSelectionViewModel
 import com.maxrave.simpmusic.viewModel.UIEvent
-import dev.chrisbanes.haze.HazeInput
-import dev.chrisbanes.haze.blur.hazeBlur
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
 import kotlinx.coroutines.flow.collectLatest
@@ -134,6 +131,7 @@ import simpmusic.composeapp.generated.resources.downloading
 import simpmusic.composeapp.generated.resources.no_description
 import simpmusic.composeapp.generated.resources.other_version
 import simpmusic.composeapp.generated.resources.year_and_category
+import com.maxrave.simpmusic.ui.component.glass.glassBarBlur
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -971,7 +969,7 @@ fun AlbumScreen(
                                 containerColor = Color.Transparent,
                             ),
                         modifier =
-                            Modifier.hazeBlur(HazeInput.Sources(hazeState), barBlurStyle(mutedPaletteBg, 0.55f)),
+                            Modifier.glassBarBlur(hazeState, mutedPaletteBg, 0.55f),
                     )
                 }
                 AnimatedVisibility(
@@ -986,7 +984,7 @@ fun AlbumScreen(
                         },
                         onOpenActions = { showSelectionSheet = true },
                         modifier =
-                            Modifier.hazeBlur(HazeInput.Sources(hazeState), barBlurStyle(mutedPaletteBg, 0.55f)),
+                            Modifier.glassBarBlur(hazeState, mutedPaletteBg, 0.55f),
                     )
                 }
                 if (showSelectionSheet) {

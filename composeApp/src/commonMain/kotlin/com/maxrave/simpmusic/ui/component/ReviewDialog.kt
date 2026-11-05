@@ -1,7 +1,6 @@
 package com.maxrave.simpmusic.ui.component
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -23,6 +22,7 @@ import com.maxrave.simpmusic.ui.theme.typo
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import simpmusic.composeapp.generated.resources.*
+import com.maxrave.simpmusic.ui.component.glass.GlassAlertDialog
 
 @Composable
 @ExperimentalMaterial3Api
@@ -31,7 +31,7 @@ fun ReviewDialog(
     onDoneReview: () -> Unit,
 ) {
     val uriHandler = LocalUriHandler.current
-    AlertDialog(
+    GlassAlertDialog(
         properties =
             DialogProperties(
                 dismissOnBackPress = false,

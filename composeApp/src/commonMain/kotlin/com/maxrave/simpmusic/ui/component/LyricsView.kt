@@ -96,6 +96,7 @@ import kotlin.math.exp
 import kotlin.math.sqrt
 import kotlin.math.min
 import kotlin.math.max
+import com.maxrave.simpmusic.ui.component.glass.GlassModalBottomSheet
 
 private const val TAG = "LyricsView"
 
@@ -1398,7 +1399,7 @@ fun FullscreenLyricsSheet(
     val screenInfo = getScreenSizeInfo()
     val isLandscape = screenInfo.wDP > screenInfo.hDP
 
-    ModalBottomSheet(
+    GlassModalBottomSheet(
         onDismissRequest = {
             onDismiss()
         },
