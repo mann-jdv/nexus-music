@@ -103,8 +103,6 @@ class SettingsViewModel(
     val skipSilent: StateFlow<String?> = _skipSilent
     private var _savedPlaybackState: MutableStateFlow<String?> = MutableStateFlow(null)
     val savedPlaybackState: StateFlow<String?> = _savedPlaybackState
-    private var _lastCheckForUpdate: MutableStateFlow<String?> = MutableStateFlow(null)
-    val lastCheckForUpdate: StateFlow<String?> = _lastCheckForUpdate
     private var _sponsorBlockEnabled: MutableStateFlow<String?> = MutableStateFlow(null)
     val sponsorBlockEnabled: StateFlow<String?> = _sponsorBlockEnabled
     private var _sponsorBlockCategories: MutableStateFlow<ArrayList<String>?> =
@@ -144,10 +142,6 @@ class SettingsViewModel(
     val proxyUsername: StateFlow<String> = _proxyUsername
     private var _proxyPassword = MutableStateFlow("")
     val proxyPassword: StateFlow<String> = _proxyPassword
-    private var _autoCheckUpdate = MutableStateFlow(false)
-    val autoCheckUpdate: StateFlow<Boolean> = _autoCheckUpdate
-    private var _updateChannel: MutableStateFlow<String> = MutableStateFlow(DataStoreManager.GITHUB)
-    val updateChannel: StateFlow<String> = _updateChannel
     private val _aiProvider = MutableStateFlow<String>(DataStoreManager.AI_PROVIDER_OPENAI)
     val aiProvider: StateFlow<String> = _aiProvider
     private val _isHasApiKey = MutableStateFlow<Boolean>(false)
@@ -285,7 +279,6 @@ class SettingsViewModel(
         getSkipSilent()
         getSavedPlaybackState()
         getSendBackToGoogle()
-        getLastCheckForUpdate()
         getSponsorBlockEnabled()
         getSponsorBlockCategories()
         getTranslationLanguage()
@@ -305,7 +298,6 @@ class SettingsViewModel(
         getAMAnimatedArtwork()
         getUsingProxy()
         getCanvasCache()
-        getAutoCheckUpdate()
         getAIProvider()
         getAIApiKey()
         getAITranslation()
@@ -321,7 +313,6 @@ class SettingsViewModel(
         getSmartDownloads()
         getContributorNameAndEmail()
         getBackupDownloaded()
-        getUpdateChannel()
         getEnableLiquidGlass()
         getExplicitContentEnabled()
         getDiscordLoggedIn()
@@ -673,21 +664,6 @@ class SettingsViewModel(
         }
     }
 
-    private fun getUpdateChannel() {
-        viewModelScope.launch {
-            dataStoreManager.updateChannel.collect { channel ->
-                _updateChannel.value = channel
-            }
-        }
-    }
-
-    fun setUpdateChannel(channel: String) {
-        viewModelScope.launch {
-            dataStoreManager.setUpdateChannel(channel)
-            getUpdateChannel()
-        }
-    }
-
     private fun getBackupDownloaded() {
         viewModelScope.launch {
             dataStoreManager.backupDownloaded.collect { backupDownloaded ->
@@ -877,21 +853,6 @@ class SettingsViewModel(
                 dataStoreManager.setUseAITranslation(false)
             }
             getAIApiKey()
-        }
-    }
-
-    private fun getAutoCheckUpdate() {
-        viewModelScope.launch {
-            dataStoreManager.autoCheckForUpdates.collect { autoCheckUpdate ->
-                _autoCheckUpdate.value = autoCheckUpdate == DataStoreManager.TRUE
-            }
-        }
-    }
-
-    fun setAutoCheckUpdate(autoCheckUpdate: Boolean) {
-        viewModelScope.launch {
-            dataStoreManager.setAutoCheckForUpdates(autoCheckUpdate)
-            getAutoCheckUpdate()
         }
     }
 
@@ -1157,14 +1118,6 @@ class SettingsViewModel(
         viewModelScope.launch {
             dataStoreManager.setLocation(location)
             getLocation()
-        }
-    }
-
-    fun getLastCheckForUpdate() {
-        viewModelScope.launch {
-            dataStoreManager.getString("CheckForUpdateAt").first().let { lastCheckForUpdate ->
-                _lastCheckForUpdate.emit(lastCheckForUpdate)
-            }
         }
     }
 

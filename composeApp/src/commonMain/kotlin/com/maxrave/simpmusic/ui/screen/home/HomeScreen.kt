@@ -573,8 +573,7 @@ fun HomeScreen(
         appDialogOpen || showReviewDialog || showRequestShareLyricsPermissions || showBlogPromoDialog ||
             showFootgunsDialog || shouldShowLogInAlert
     // The launch banner, decided once per launch. It waits for Home to settle on its own dialogs (the
-    // open count and the lyrics-sharing flag load just after the first frame) and for the update check
-    // started at launch, however long that takes, so an update dialog comes first. Then it takes the
+    // open count and the lyrics-sharing flag load just after the first frame). Then it takes the
     // first banner this version has not shown yet.
     LaunchedEffect(Unit) {
         if (promoLaunchDecided) return@LaunchedEffect
@@ -583,7 +582,6 @@ fun HomeScreen(
         promoLaunchDecided = true
         snapshotFlow { openAppTime }.first { it > 0 }
         delay(PROMO_SETTLE_MS)
-        sharedViewModel.isCheckingUpdate.first { !it }
         if (userStarted) {
             Logger.i("Promo", "Skipped: the user started before the banner's turn")
             return@LaunchedEffect
