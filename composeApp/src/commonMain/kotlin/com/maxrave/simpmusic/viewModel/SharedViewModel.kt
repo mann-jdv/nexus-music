@@ -764,7 +764,7 @@ class SharedViewModel(
         dataStoreManager
             .getString(Promo.shownKey(appIdentity.isDevBuild))
             .distinctUntilChanged()
-            .map { shownPromoIds(stored = it, appVersion = VersionManager.getVersionName()) }
+            .map { shownPromoIds(stored = it, appVersion = VersionManager.getUpstreamVersionName()) }
 
     /** Each banner once per app version, however it was closed. */
     fun markPromoShown(id: String) {
@@ -772,7 +772,7 @@ class SharedViewModel(
             val key = Promo.shownKey(appIdentity.isDevBuild)
             dataStoreManager.putString(
                 key,
-                withShownPromo(dataStoreManager.getString(key).first(), VersionManager.getVersionName(), id),
+                withShownPromo(dataStoreManager.getString(key).first(), VersionManager.getUpstreamVersionName(), id),
             )
         }
     }

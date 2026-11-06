@@ -18,6 +18,18 @@ object VersionManager {
 
     fun getVersionName(): String = removeDevSuffix(versionName ?: String())
 
+    /**
+     * The SimpMusic release this Nexus build is based on (gradle/libs.versions.toml). Use it only for
+     * gates that answer to SimpMusic's numbering — remote promo banners carry SimpMusic minVersions,
+     * and "1.0.0-nexus" would otherwise read as older than every one of them.
+     */
+    fun getUpstreamVersionName(): String =
+        try {
+            removeDevSuffix(BuildKonfig.upstreamVersionName)
+        } catch (_: Exception) {
+            String()
+        }
+
     /** True when [tag] names a release newer than this build. */
     fun isBehind(tag: String): Boolean = isNewerRelease(current = getVersionName(), tag = tag)
 

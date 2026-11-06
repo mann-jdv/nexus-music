@@ -47,3 +47,7 @@ sentry.properties
 /desktopApp/generated.conveyor.conf
 # Conveyor output directory
 /output/
+# Nexus Music release output and signing material (scripts/build-release.sh). Never commit keys.
+/dist/
+*.jks
+*.keystore

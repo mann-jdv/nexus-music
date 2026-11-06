@@ -1,3 +1,10 @@
+> **This is Nexus Music**, a personal modified build of [SimpMusic](https://github.com/maxrave-dev/SimpMusic)
+> by maxrave-dev and contributors, distributed under the same GPL-3.0 license (see [LICENSE](LICENSE)).
+> Nexus adds local music playback, a bit-perfect lossless mode and a Liquid Glass look, and removes the
+> in-app updater; the full list of changes and the upstream credit are in [NOTICE](NOTICE).
+> Everything below is SimpMusic's own README. Nexus Music is not affiliated with SimpMusic: please do
+> not report Nexus problems to the SimpMusic project, and its download links below are for SimpMusic.
+
 <div align="center"> <img src="https://raw.githubusercontent.com/maxrave-dev/SimpMusic/dev/fastlane/metadata/android/en-US/images/featureGraphic.png"> <h1>SimpMusic</h1>  
 A FOSS YouTube Music client for Android and Desktop with many features from<br>Spotify, SponsorBlock, ReturnYouTubeDislike using Compose Multiplatform to develop.
 <br> 

@@ -1,0 +1,55 @@
+Nexus Music
+===========
+
+Nexus Music is a modified version of SimpMusic.
+
+  Upstream:  SimpMusic, by maxrave-dev and contributors
+             https://github.com/maxrave-dev/SimpMusic  (app)
+             https://github.com/maxrave-dev/core       (core/ submodule)
+  License:   GNU General Public License, version 3 (see LICENSE). Nexus Music is distributed
+             under the same license. Its complete corresponding source is this repository
+             together with its core/ submodule at the commit recorded here.
+
+All credit for SimpMusic itself — the YouTube Music client, the player, lyrics, analytics,
+equalizer, Desktop app and everything else not listed below — belongs to the SimpMusic authors.
+Nexus Music is not affiliated with or endorsed by SimpMusic. Please report Nexus-specific problems
+to the Nexus maintainer, not to SimpMusic.
+
+Third-party components keep their own licenses and notices; see the in-app open-source licenses
+screen (AboutLibraries) and the license headers of the files concerned. In particular,
+core/media/media3/src/main/java/androidx/media3/exoplayer/audio/LosslessAudioSink.java is a
+modified copy of Media3's DefaultAudioSink (Copyright The Android Open Source Project, Apache-2.0).
+
+
+Modifications (GPL-3.0 section 5(a): what changed, and when)
+-------------------------------------------------------------
+
+2026-11-05  Rebrand to Nexus Music
+            App name, launcher icon, applicationId org.nexusmusic.app (.dev for debug),
+            Desktop identity (Conveyor names, Windows protocol registration), rootProject name.
+            SimpMusic's official-build check is no longer called. Kotlin package names, the
+            Android namespace and simpmusic.org services/URLs are unchanged.
+
+2026-11-05  Remove the in-app updater
+            Update checks, update dialog, GitHub/F-Droid release lookups, UpdateRepository and
+            related settings removed on Android and Desktop.
+
+2026-11-05  Liquid Glass
+            Frosted/refractive glass primitives (ui/component/glass/), glass top bars, sheets,
+            dialogs, menus and tiles across the app, and a "Liquid Glass" Now Playing style.
+
+2026-11-06  Local music playback
+            Play the user's own music files from folders they choose: folder scanning, a Local
+            tab in Library, local results in Search, offline playback on Android and Desktop.
+
+2026-11-06  Bit-perfect lossless mode
+            Optional bypass of all app DSP for local lossless files, USB bit-perfect mixer
+            (Android 14+) and WASAPI exclusive output (Windows), gapless album playback, and an
+            audio-quality badge that reports resampling and processing honestly.
+
+2026-11-06  Release and upstream sync
+            Nexus version numbering (nexus.properties), release signing script, upstream sync
+            script and SYNC.md, upstream CI workflows replaced by a secret-free build check,
+            this NOTICE.
+
+The full history of each change is in the git log of this repository and of core/.

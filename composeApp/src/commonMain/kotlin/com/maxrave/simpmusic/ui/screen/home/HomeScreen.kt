@@ -589,7 +589,7 @@ fun HomeScreen(
         val shown = sharedViewModel.shownPromos()
         val promos = sharedViewModel.cachedPromos().first()
         val os = osRequirementOf(getPlatform().osName())
-        val eligible = eligiblePromos(promos, VersionManager.getVersionName(), language, localTracking, youTubeLoggedIn, os)
+        val eligible = eligiblePromos(promos, VersionManager.getUpstreamVersionName(), language, localTracking, youTubeLoggedIn, os)
         val banner =
             eligible
                 .firstOrNull { (promo, _) -> promo.id.orEmpty() !in shown }
@@ -601,7 +601,7 @@ fun HomeScreen(
                     "Nothing to show: ${eligible.size} of ${promos.size} banners usable here " +
                         "(local tracking ${if (localTracking) "on" else "off"}, " +
                         "YouTube ${if (youTubeLoggedIn) "signed in" else "signed out"}), " +
-                        "already shown in ${VersionManager.getVersionName()}: $shown",
+                        "already shown in ${VersionManager.getUpstreamVersionName()}: $shown",
                 )
 
             userStarted -> Logger.i("Promo", "Skipped ${banner.id}: the user started before its turn")

@@ -837,15 +837,18 @@ buildkonfig {
     packageName = "com.maxrave.simpmusic"
     exposeObjectWithName = "BuildKonfig"
     defaultConfigs {
-        val versionName =
-            libs.versions.version.name
-                .get()
-        val versionCode =
-            libs.versions.version.code
-                .get()
-                .toInt()
+        // Nexus Music version (nexus.properties); upstream's stays available for feature gates
+        // that answer to SimpMusic's numbering, such as remote promo banners.
+        val versionName = rootProject.extra["nexusVersionName"] as String
+        val versionCode = rootProject.extra["nexusVersionCode"] as Int
         buildConfigField(STRING, "versionName", versionName)
         buildConfigField(INT, "versionCode", "$versionCode")
+        buildConfigField(
+            STRING,
+            "upstreamVersionName",
+            libs.versions.version.name
+                .get(),
+        )
 
         if (isFullBuild) {
             try {

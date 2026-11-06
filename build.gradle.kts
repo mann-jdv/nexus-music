@@ -23,6 +23,22 @@ plugins {
     alias(libs.plugins.compose.hotReload) apply false
 }
 
+// Nexus Music version (see nexus.properties). Read once here and handed to every module through
+// extra, so androidApp, vivoAndroidApp and composeApp's BuildKonfig can never disagree.
+run {
+    val props = java.util.Properties()
+    rootProject.file("nexus.properties").inputStream().use { props.load(it) }
+    val version = props.getProperty("nexus.version")?.trim()
+        ?: error("nexus.properties: nexus.version is missing")
+    val parts = version.split('.').map { it.toIntOrNull() }
+    require(parts.size == 3 && parts.all { it != null && it in 0..99 }) {
+        "nexus.properties: nexus.version must be MAJOR.MINOR.PATCH with each part 0..99, was '$version'"
+    }
+    val (major, minor, patch) = parts.map { it!! }
+    extra["nexusVersionName"] = "$version-nexus"
+    extra["nexusVersionCode"] = 1_000_000 + major * 10_000 + minor * 100 + patch
+}
+
 tasks.register<Delete>("Clean") {
     delete(rootProject.layout.buildDirectory)
 }

@@ -74,7 +74,7 @@ fun LyricsPromoLine(
             lyricsPromo(
                 promos = promos,
                 shown = seen,
-                appVersion = VersionManager.getVersionName(),
+                appVersion = VersionManager.getUpstreamVersionName(),
                 language = language,
                 localTrackingEnabled = sharedViewModel.getLocalTrackingEnabled().first() == TRUE,
                 os = osRequirementOf(getPlatform().osName()),

@@ -23,13 +23,9 @@ android {
         applicationId = "org.nexusmusic.app"
         minSdk = 26
         targetSdk = 36
-        versionCode =
-            libs.versions.version.code
-                .get()
-                .toInt()
-        versionName =
-            libs.versions.version.name
-                .get()
+        // Nexus Music numbering (nexus.properties via the root build), not upstream's.
+        versionCode = rootProject.extra["nexusVersionCode"] as Int
+        versionName = rootProject.extra["nexusVersionName"] as String
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled = true
 
