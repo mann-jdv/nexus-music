@@ -244,6 +244,9 @@ private const val BLOG_PROMO_KEY = "blog_promo_v1_seen"
 // Launch banner timing: how long Home's own launch dialogs get to settle, and how long the screen must
 // stay free of other dialogs before the banner draws.
 private const val PROMO_SETTLE_MS = 1_000L
+
+// Upstream's remote promo banners (SimpMusic's own announcements) are off in Nexus Music.
+private const val NEXUS_PROMOS_DISABLED = true
 private const val PROMO_CLEAR_MS = 400L
 
 // The height the first item lost with the old app bar (64dp + the 50dp chip row, now one 56dp row) and
@@ -453,30 +456,9 @@ fun HomeScreen(
             }
         }
     }
-    LaunchedEffect(openAppTime, shareLyricsPermissions) {
-        Logger.w("HomeScreen", "openAppTime: $openAppTime, shareLyricsPermissions: $shareLyricsPermissions")
-        if (openAppTime >= 10 && openAppTime % 10 == 0 && openAppTime <= 50) {
-            showReviewDialog = true
-        } else if ((openAppTime == 1 || openAppTime % 15 == 0) && openAppTime <= 60 && !shareLyricsPermissions) {
-            showRequestShareLyricsPermissions = true
-        } else if (openAppTime == 5) {
-            // Blog promo: one-shot after 5 app opens, bump key suffix to re-promote later
-            if (sharedViewModel.getString(BLOG_PROMO_KEY) != "true") {
-                showBlogPromoDialog = true
-            }
-        } else if (openAppTime % 10 == 6 &&
-            openAppTime <= 46 &&
-            sharedViewModel.getString(FOOTGUNS_STAR_KEY) != "true"
-        ) {
-            // kotlin-footguns star prompt: 6, 16, 26, 36, 46 - one open after each review milestone,
-            // and clear of the share-lyrics (15, 45) and blog-promo (5) milestones
-            showFootgunsDialog = true
-        } else {
-            showReviewDialog = false
-            showFootgunsDialog = false
-            showRequestShareLyricsPermissions = false
-        }
-    }
+    // Nexus Music: upstream's launch-count prompts (rate/star on GitHub, the developer's blog and
+    // kotlin-footguns promos, the lyrics-sharing request) are switched off. The dialogs below stay
+    // in place so upstream syncs merge cleanly; nothing ever raises their flags.
 
     val shouldStartPaginate =
         remember {
@@ -581,6 +563,9 @@ fun HomeScreen(
     // first banner this version has not shown yet.
     LaunchedEffect(Unit) {
         if (promoLaunchDecided) return@LaunchedEffect
+        // Nexus Music: upstream's remote promo banners are never shown.
+        promoLaunchDecided = true
+        if (NEXUS_PROMOS_DISABLED) return@LaunchedEffect
         // Marked at the start, not the end: leaving Home cancels this for good (by then the user is
         // busy elsewhere), and a value written while Home is being left would not be saved.
         promoLaunchDecided = true

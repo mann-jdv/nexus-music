@@ -58,4 +58,8 @@ Modifications (GPL-3.0 section 5(a): what changed, and when)
             artwork in a glowing ring, neon seek bar and play button), and a Nexus layout for Home
             (greeting header, glowing mood pills, a featured card from the feed).
 
+2026-11-07  Rebranded about and promotion screens
+            Upstream's rating, donation, blog and promo pop-ups and links removed from the app;
+            the about screen shows Nexus Music text with a GPL-3.0 notice.
+
 The full history of each change is in the git log of this repository and of core/.

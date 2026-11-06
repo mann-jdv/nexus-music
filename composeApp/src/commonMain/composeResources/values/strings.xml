@@ -472,6 +472,10 @@
     <string name="theme_color_nexus_violet" translatable="false">Nexus Violet</string>
     <string name="theme_color_classic">Classic blue</string>
     <string name="nexus_start_listening">Start Listening</string>
+    <string name="nexus_about" translatable="false">Nexus Music is a personal music player that streams from YouTube Music, with synced lyrics, local files and lossless playback.
+
+No ads, no tracking.</string>
+    <string name="nexus_license_notice" translatable="false">Nexus Music is a modified version of the open-source SimpMusic app and is licensed under the GNU General Public License v3.0. It is provided without any warranty.</string>
     <string name="custom_color">Custom color</string>
     <string name="donation">If you love my work, give me a coffee</string>
     <string name="relax">Relax</string>
