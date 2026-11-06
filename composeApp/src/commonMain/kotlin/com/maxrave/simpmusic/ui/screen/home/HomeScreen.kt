@@ -169,6 +169,8 @@ import com.maxrave.simpmusic.ui.navigation.destination.list.PlaylistDestination
 import com.maxrave.simpmusic.ui.navigation.destination.login.LoginDestination
 import com.maxrave.simpmusic.ui.screen.library.LibraryDynamicPlaylistType
 import com.maxrave.simpmusic.ui.theme.LocalLiquidGlassEnabled
+import com.maxrave.simpmusic.ui.theme.LocalNexusTheme
+import com.maxrave.simpmusic.ui.theme.NexusBackground
 import com.maxrave.simpmusic.ui.theme.desktopPanelDark
 import com.maxrave.simpmusic.ui.theme.typo
 import com.maxrave.simpmusic.utils.VersionManager
@@ -326,6 +328,10 @@ fun HomeScreen(
 
     val backgroundColor = MaterialTheme.colorScheme.background
     val isLightTheme = backgroundColor.luminance() > 0.5f
+    // Nexus Violet's own Home layout (NexusHome.kt): purple page, greeting header, glowing pills and
+    // a featured card from the feed. Everything else on the page is unchanged.
+    val nexusHome = LocalNexusTheme.current
+    val nexusFeatured = remember(homeShelves) { homeShelves.nexusFeatured() }
     // What is ACTUALLY painted behind this screen. The desktop shell wraps content in a rounded
     // panel (App.kt: surfaceContainer on light, desktopPanelDark on dark) — deliberately not
     // colorScheme.background — so a gradient tail aimed at colorScheme.background ends on the
@@ -759,6 +765,7 @@ fun HomeScreen(
                 )
             },
         ) {
+            if (nexusHome) NexusBackground(Modifier.matchParentSize())
             Crossfade(targetState = loading, label = "Home Shimmer") { loading ->
                 if (!loading) {
                     if (homeData.isEmpty()) {
@@ -778,11 +785,30 @@ fun HomeScreen(
                         state = scrollState,
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
+                        if (nexusHome) {
+                            item(key = "nexusFeatured") {
+                                Column {
+                                    Spacer(
+                                        Modifier.height(
+                                            with(LocalDensity.current) { topAppBarHeightPx.toDp() } + 8.dp,
+                                        ),
+                                    )
+                                    nexusFeatured?.let { (shelf, content) ->
+                                        NexusFeaturedCard(
+                                            shelf = shelf,
+                                            content = content,
+                                            onOpen = { content.openFromHome(navController, viewModel) },
+                                            modifier = Modifier.padding(top = 4.dp, bottom = 8.dp),
+                                        )
+                                    }
+                                }
+                            }
+                        }
                         itemsIndexed(homeShelves, key = { _, item ->
                             item.hashCode().toString() + (mainHomeThumbnail ?: "nothumb")
                         }) { index, item ->
                             Box {
-                                if (index == 0) {
+                                if (index == 0 && !nexusHome) {
                                     Box(
                                         modifier =
                                             Modifier
@@ -847,7 +873,7 @@ fun HomeScreen(
                                         Modifier
                                             .padding(horizontal = 15.dp),
                                 ) {
-                                    if (index == 0) {
+                                    if (index == 0 && !nexusHome) {
                                         // The header's own height plus 8dp, so the first section does not
                                         // sit right under the chips.
                                         Spacer(
@@ -1081,71 +1107,88 @@ fun HomeScreen(
                         onSettings = { navController.navigate(SettingsDestination) },
                     )
                 }
-                Row(
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .height(56.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Box(Modifier.padding(start = 16.dp, end = 8.dp)) {
-                        HomeAccountButton(
-                            accountName = accountInfo?.first,
-                            thumbnailUrl = accountInfo?.second,
-                            navController = navController,
-                        )
-                    }
-                    BoxWithConstraints(
-                        Modifier
-                            .weight(1f)
-                            .fillMaxHeight(),
+                if (nexusHome) {
+                    NexusHomeHeaderRow(
+                        accountName = accountInfo?.first,
+                        thumbnailUrl = accountInfo?.second,
+                        navController = navController,
+                        createActions = createActions,
+                    )
+                    NexusMoodPills(
+                        moods = homeMoods.map { stringResource(it.first) to it.second },
+                        selectedParams = params,
+                        onSelect = { selected ->
+                            moodExpanded = false
+                            viewModel.setParams(selected)
+                        },
+                    )
+                } else {
+                    Row(
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .height(56.dp),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Row(
-                            modifier =
-                                Modifier
-                                    .fillMaxHeight()
-                                    .chipStripEdgeFades(32.dp, start = { chipHeadFade }, end = { chipTailFade })
-                                    .mouseDragScroll(chipRowState)
-                                    .horizontalScroll(chipRowState)
-                                    .widthIn(min = maxWidth)
-                                    .padding(end = if (createPinned) 0.dp else 16.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically,
+                        Box(Modifier.padding(start = 16.dp, end = 8.dp)) {
+                            HomeAccountButton(
+                                accountName = accountInfo?.first,
+                                thumbnailUrl = accountInfo?.second,
+                                navController = navController,
+                            )
+                        }
+                        BoxWithConstraints(
+                            Modifier
+                                .weight(1f)
+                                .fillMaxHeight(),
                         ) {
                             Row(
-                                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                modifier =
+                                    Modifier
+                                        .fillMaxHeight()
+                                        .chipStripEdgeFades(32.dp, start = { chipHeadFade }, end = { chipTailFade })
+                                        .mouseDragScroll(chipRowState)
+                                        .horizontalScroll(chipRowState)
+                                        .widthIn(min = maxWidth)
+                                        .padding(end = if (createPinned) 0.dp else 16.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
-                                Chip(
-                                    isAnimated = loading,
-                                    isSelected = params == null && !moodExpanded,
-                                    text = stringResource(Res.string.all),
-                                    backdrop = chipBackdrop,
+                                Row(
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
                                 ) {
-                                    moodExpanded = false
-                                    viewModel.setParams(null)
-                                }
-                                ExpandableChip(
-                                    text = stringResource(Res.string.mood),
-                                    options = homeMoods.map { stringResource(it.first) },
-                                    selectedIndex = homeMoods.indexOfFirst { it.second == params }.takeIf { it >= 0 },
-                                    expanded = moodExpanded,
-                                    onExpandedChange = { moodExpanded = it },
-                                    onSelect = { index ->
+                                    Chip(
+                                        isAnimated = loading,
+                                        isSelected = params == null && !moodExpanded,
+                                        text = stringResource(Res.string.all),
+                                        backdrop = chipBackdrop,
+                                    ) {
                                         moodExpanded = false
-                                        viewModel.setParams(homeMoods[index].second)
-                                    },
-                                    isAnimated = loading,
-                                    backdrop = chipBackdrop,
-                                )
-                            }
-                            if (!createPinned) {
-                                Box(Modifier.padding(start = 8.dp)) { createActions() }
+                                        viewModel.setParams(null)
+                                    }
+                                    ExpandableChip(
+                                        text = stringResource(Res.string.mood),
+                                        options = homeMoods.map { stringResource(it.first) },
+                                        selectedIndex = homeMoods.indexOfFirst { it.second == params }.takeIf { it >= 0 },
+                                        expanded = moodExpanded,
+                                        onExpandedChange = { moodExpanded = it },
+                                        onSelect = { index ->
+                                            moodExpanded = false
+                                            viewModel.setParams(homeMoods[index].second)
+                                        },
+                                        isAnimated = loading,
+                                        backdrop = chipBackdrop,
+                                    )
+                                }
+                                if (!createPinned) {
+                                    Box(Modifier.padding(start = 8.dp)) { createActions() }
+                                }
                             }
                         }
-                    }
-                    if (createPinned) {
-                        Box(Modifier.padding(start = 8.dp, end = 16.dp)) { createActions() }
+                        if (createPinned) {
+                            Box(Modifier.padding(start = 8.dp, end = 16.dp)) { createActions() }
+                        }
                     }
                 }
             }
@@ -1208,7 +1251,7 @@ private const val CHIP_FADE_STEPS = 24
  * offers the log-in.
  */
 @Composable
-private fun HomeAccountButton(
+internal fun HomeAccountButton(
     accountName: String?,
     thumbnailUrl: String?,
     navController: NavController,

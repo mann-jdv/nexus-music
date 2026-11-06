@@ -6,9 +6,10 @@ import androidx.compose.ui.graphics.Color
 
 /**
  * Brand seed color. The whole Material 3 ColorScheme is generated from this
- * color at runtime — see [AppTheme].
+ * color at runtime — see [AppTheme]. Nexus Violet's accent (see [NexusColors]); the
+ * pre-fork light blue lives on as [classicSeed] behind the Classic theme option.
  */
-val seed = Color(0xFF8ECAE6)
+val seed = Color(0xFF8B5CF6)
 
 // ===== Semantic colors (not derivable from the color scheme) =====
 

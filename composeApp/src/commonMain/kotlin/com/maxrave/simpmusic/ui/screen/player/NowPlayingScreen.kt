@@ -100,6 +100,8 @@ import com.maxrave.simpmusic.ui.navigation.destination.player.FullscreenDestinat
 import com.maxrave.simpmusic.ui.screen.player.content.NowPlayingContentActions
 import com.maxrave.simpmusic.ui.screen.player.content.NowPlayingContentAppleMusic
 import com.maxrave.simpmusic.ui.screen.player.content.NOW_PLAYING_STYLE_LIQUID_GLASS
+import com.maxrave.simpmusic.ui.screen.player.content.NOW_PLAYING_STYLE_NEXUS_VIOLET
+import com.maxrave.simpmusic.ui.screen.player.content.NowPlayingContentNexusViolet
 import com.maxrave.simpmusic.ui.screen.player.content.NowPlayingContentLiquidGlass
 import com.maxrave.simpmusic.ui.screen.player.content.NowPlayingContentM3Expressive
 import com.maxrave.simpmusic.ui.screen.player.content.NowPlayingContentSpotify
@@ -993,6 +995,12 @@ fun NowPlayingScreenContent(
 
         NOW_PLAYING_STYLE_LIQUID_GLASS ->
             NowPlayingContentLiquidGlass(
+                state = state,
+                actions = actions,
+            )
+
+        NOW_PLAYING_STYLE_NEXUS_VIOLET ->
+            NowPlayingContentNexusViolet(
                 state = state,
                 actions = actions,
             )

@@ -635,7 +635,7 @@ private fun TransportGlyph(
  * Overshoots a touch on the way, as a spring does.
  */
 @Composable
-private fun MorphingPlayPauseIcon(
+internal fun MorphingPlayPauseIcon(
     isPlaying: Boolean,
     color: Color,
     modifier: Modifier = Modifier,

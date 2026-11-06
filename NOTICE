@@ -52,4 +52,10 @@ Modifications (GPL-3.0 section 5(a): what changed, and when)
             script and SYNC.md, upstream CI workflows replaced by a secret-free build check,
             this NOTICE.
 
+2026-11-06  Nexus Violet design
+            A dark-purple theme with violet glow as the default colour theme (the old light blue
+            stays available as "Classic blue"), a Nexus Violet Now Playing style (spinning circular
+            artwork in a glowing ring, neon seek bar and play button), and a Nexus layout for Home
+            (greeting header, glowing mood pills, a featured card from the feed).
+
 The full history of each change is in the git log of this repository and of core/.

@@ -138,20 +138,29 @@ fun AppTheme(
             null
         }
     val seedColor =
-        if (themeColorSource == DataStoreManager.THEME_COLOR_CUSTOM) {
-            customThemeColor ?: seed
-        } else {
-            seed
+        when (themeColorSource) {
+            DataStoreManager.THEME_COLOR_CUSTOM -> customThemeColor ?: seed
+            THEME_COLOR_CLASSIC -> classicSeed
+            else -> seed
         }
+    // Nexus Violet is the fork's default: its dark scheme gets the deep-purple surface ramp instead of
+    // the generated near-grey neutrals. Classic, Custom and Wallpaper keep the generated ones.
+    val nexusSurfaces = themeColorSource == DataStoreManager.THEME_COLOR_DEFAULT
     // Light pins the neutrals to a neutral-grey ramp (the seed otherwise tints them warm/cream);
-    // dark keeps the generated neutrals as they are.
+    // dark keeps the generated neutrals as they are (or Nexus Violet's purple ramp).
     val colorScheme =
         wallpaperScheme
             ?: rememberDynamicColorScheme(
                 seedColor = seedColor,
                 isDark = isDark,
                 style = PaletteStyle.TonalSpot,
-                modifyColorScheme = { cs -> if (isDark) cs else cs.withNeutralLightSurfaces() },
+                modifyColorScheme = { cs ->
+                    when {
+                        !isDark -> cs.withNeutralLightSurfaces()
+                        nexusSurfaces -> cs.withNexusDarkSurfaces()
+                        else -> cs
+                    }
+                },
             )
     // Immersive screens stay dark even at light theme (see [ForceDarkContent]). Resolve their scheme
     // once here instead of letting every such subtree build a palette of its own.
@@ -163,6 +172,7 @@ fun AppTheme(
                 seedColor = seedColor,
                 isDark = true,
                 style = PaletteStyle.TonalSpot,
+                modifyColorScheme = { cs -> if (nexusSurfaces) cs.withNexusDarkSurfaces() else cs },
             )
         }
     SystemBarAppearanceEffect(isDark)
@@ -176,6 +186,7 @@ fun AppTheme(
                 LocalIsDarkTheme provides isDark,
                 LocalForcedDarkColorScheme provides forcedDarkScheme,
                 LocalLiquidGlassEnabled provides liquidGlassEnabled,
+                LocalNexusTheme provides (nexusSurfaces && isDark && wallpaperScheme == null),
                 content = content,
             )
         },

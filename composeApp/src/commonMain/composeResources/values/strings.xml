@@ -438,6 +438,7 @@
     <string name="now_playing_style_m3_expressive" translatable="false">Material 3 Expressive</string>
     <string name="now_playing_style_apple_music" translatable="false">Apple Music</string>
     <string name="now_playing_style_liquid_glass" translatable="false">Liquid Glass</string>
+    <string name="now_playing_style_nexus_violet" translatable="false">Nexus Violet</string>
     <string name="ai_translated">AI translated</string>
     <string name="lyrics_style">Lyrics style</string>
     <string name="lyrics_style_classic">Classic</string>
@@ -468,6 +469,9 @@
     <string name="theme_color_default">Default</string>
     <string name="theme_color_wallpaper">Wallpaper</string>
     <string name="theme_color_custom">Custom</string>
+    <string name="theme_color_nexus_violet" translatable="false">Nexus Violet</string>
+    <string name="theme_color_classic">Classic blue</string>
+    <string name="nexus_start_listening">Start Listening</string>
     <string name="custom_color">Custom color</string>
     <string name="donation">If you love my work, give me a coffee</string>
     <string name="relax">Relax</string>

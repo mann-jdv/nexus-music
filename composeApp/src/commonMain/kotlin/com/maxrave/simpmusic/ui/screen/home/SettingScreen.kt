@@ -451,6 +451,11 @@ import com.maxrave.simpmusic.ui.component.glass.GlassModalBottomSheet
 import com.maxrave.simpmusic.ui.component.glass.GlassAlertDialog
 import com.maxrave.simpmusic.ui.component.glass.glassBarBlur
 import com.maxrave.simpmusic.ui.screen.player.content.NOW_PLAYING_STYLE_LIQUID_GLASS
+import com.maxrave.simpmusic.ui.screen.player.content.NOW_PLAYING_STYLE_NEXUS_VIOLET
+import com.maxrave.simpmusic.ui.theme.THEME_COLOR_CLASSIC
+import simpmusic.composeapp.generated.resources.now_playing_style_nexus_violet
+import simpmusic.composeapp.generated.resources.theme_color_classic
+import simpmusic.composeapp.generated.resources.theme_color_nexus_violet
 import simpmusic.composeapp.generated.resources.now_playing_style_liquid_glass
 
 @OptIn(
@@ -745,6 +750,7 @@ fun SettingScreen(
                             DataStoreManager.NOW_PLAYING_STYLE_APPLE_MUSIC to
                                 stringResource(Res.string.now_playing_style_apple_music) + requiresAndroid12,
                             NOW_PLAYING_STYLE_LIQUID_GLASS to stringResource(Res.string.now_playing_style_liquid_glass),
+                            NOW_PLAYING_STYLE_NEXUS_VIOLET to stringResource(Res.string.now_playing_style_nexus_violet),
                         )
                     SettingItem(
                         title = stringResource(Res.string.now_playing_style),
@@ -884,7 +890,8 @@ fun SettingScreen(
                     )
                     val colorSourceLabels =
                         buildList {
-                            add(DataStoreManager.THEME_COLOR_DEFAULT to stringResource(Res.string.theme_color_default))
+                            add(DataStoreManager.THEME_COLOR_DEFAULT to stringResource(Res.string.theme_color_nexus_violet))
+                            add(THEME_COLOR_CLASSIC to stringResource(Res.string.theme_color_classic))
                             if (isWallpaperDynamicColorSupported()) {
                                 add(DataStoreManager.THEME_COLOR_WALLPAPER to stringResource(Res.string.theme_color_wallpaper))
                             }
