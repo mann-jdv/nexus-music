@@ -117,6 +117,7 @@ import simpmusic.composeapp.generated.resources.your_library
 import simpmusic.composeapp.generated.resources.your_playlists
 import simpmusic.composeapp.generated.resources.your_youtube_playlists
 import com.maxrave.simpmusic.ui.component.glass.glassBarBlur
+import simpmusic.composeapp.generated.resources.local_music
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -229,6 +230,9 @@ fun LibraryScreen(
             LibraryChipType.WRAPPED -> {
                 viewModel.getMonthlyRecaps()
             }
+
+            // Local music reads its own flows; nothing to load here.
+            LibraryChipType.LOCAL_MUSIC -> Unit
         }
     }
 
@@ -240,6 +244,14 @@ fun LibraryScreen(
         targetState = currentFilter,
     ) { filter ->
         when (filter) {
+            LibraryChipType.LOCAL_MUSIC -> {
+                LocalMusicTab(
+                    navController = navController,
+                    contentPadding = innerPadding.copy(top = topAppBarHeight),
+                    onScrolling = onScrolling,
+                )
+            }
+
             LibraryChipType.YOUR_LIBRARY -> {
                 val state = rememberLazyListState()
                 val isScrollingUp by state.isScrollingUp()
@@ -539,6 +551,7 @@ fun LibraryScreen(
                             LibraryChipType.FAVORITE_PODCAST -> stringResource(Res.string.favorite_podcasts)
                             LibraryChipType.CHART -> stringResource(Res.string.simpmusic_charts)
                             LibraryChipType.WRAPPED -> stringResource(Res.string.wrapped)
+                            LibraryChipType.LOCAL_MUSIC -> stringResource(Res.string.local_music)
                         },
                     backdrop = chipBackdrop,
                 ) {

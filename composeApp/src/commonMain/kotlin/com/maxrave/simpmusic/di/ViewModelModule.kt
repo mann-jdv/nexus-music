@@ -32,6 +32,7 @@ import com.maxrave.simpmusic.viewModel.TasteViewModel
 import com.maxrave.simpmusic.viewModel.WrappedViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
+import com.maxrave.simpmusic.viewModel.LocalMusicViewModel
 
 val viewModelModule =
     module {
@@ -54,6 +55,9 @@ val viewModelModule =
                 get(),
                 get(),
             )
+        }
+        viewModel {
+            LocalMusicViewModel(get(), get(), get(), get(), get(), get(), get())
         }
         viewModel {
             SongSelectionViewModel(

@@ -1066,4 +1066,20 @@
     <string name="recognize_mic_needed">Microphone access needed</string>
     <string name="recognize_mic_hint">Nexus Music listens for a few seconds to find the song playing near you</string>
     <string name="recognize_allow_mic">Allow microphone</string>
+    <!-- Nexus Music: local file playback -->
+    <string name="local_music">Local</string>
+    <string name="local_folders">Folders</string>
+    <string name="local_add_folder">Add music folder</string>
+    <string name="local_add_folder_description">Pick a folder of your own music files (FLAC, ALAC, WAV, AIFF on desktop, MP3, AAC, Opus)</string>
+    <string name="local_rescan">Rescan folders</string>
+    <string name="local_rescan_description">Pick up new and changed files and drop ones that were deleted</string>
+    <string name="local_scanning">Scanning…</string>
+    <string name="local_scan_result">%1$s songs added or updated, %2$s removed</string>
+    <string name="local_folder_unreadable">That folder could not be opened</string>
+    <string name="local_empty">No local music yet. Add a folder with your own music files to play them here, offline.</string>
+    <string name="local_track_count">%1$s songs</string>
+    <string name="local_music_settings">Local music</string>
+    <string name="local_remove_folder">Remove folder</string>
+    <string name="local_remove_folder_message">Stop reading music from %1$s? The files stay where they are.</string>
+    <string name="local_search_section">On this device</string>
 </resources>

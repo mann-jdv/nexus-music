@@ -3,6 +3,7 @@ package com.maxrave.simpmusic.viewModel
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.viewModelScope
 import com.maxrave.common.AppIdentity
+import com.maxrave.common.LocalMedia
 import com.maxrave.common.Config.ALBUM_CLICK
 import com.maxrave.common.Config.DOWNLOAD_CACHE
 import com.maxrave.common.Config.PLAYLIST_CLICK
@@ -658,7 +659,7 @@ class SharedViewModel(
         likeStatusJob?.cancel()
         likeStatusJob =
             viewModelScope.launch {
-                if (videoId != null) {
+                if (videoId != null && !LocalMedia.isLocal(videoId)) {
                     _likeStatus.value = YouTubeLikeStatus.INDIFFERENT
                     songRepository.getLikeStatus(videoId).collectLatest { status ->
                         _likeStatus.value = status
@@ -1220,6 +1221,11 @@ class SharedViewModel(
 
     fun getSongInfo(mediaId: String?) {
         songInfoJob?.cancel()
+        // Song info is a YouTube page; a local file has none, and asking would be a network call.
+        if (LocalMedia.isLocal(mediaId)) {
+            _nowPlayingScreenData.update { it.copy(songInfoData = null) }
+            return
+        }
         songInfoJob =
             viewModelScope.launch {
                 if (mediaId != null) {

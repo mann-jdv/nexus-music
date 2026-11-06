@@ -930,6 +930,10 @@ fun SettingScreen(
                 }
             }
         }
+        // Nexus Music: folders of the user's own music files (local file playback).
+        item(key = "local_music") {
+            LocalMusicSettingsGroup()
+        }
         item(key = "content") {
             SettingGroup(title = stringResource(Res.string.content)) {
                 SettingItem(

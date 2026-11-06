@@ -408,3 +408,9 @@
 # JNA references the signature-polymorphic java.lang.invoke.MethodHandle.invoke(...) overloads, which
 # ProGuard can't resolve as concrete methods. JNA itself is kept above; suppress these warnings.
 -dontwarn com.sun.jna.**
+
+# Nexus Music local file playback: jaudiotagger reads tags through format readers it looks up by
+# file extension and logs through java.util.logging; keep it whole and quiet its optional
+# references (javax.imageio extras, Android stubs it never touches on the JVM).
+-keep class org.jaudiotagger.** { *; }
+-dontwarn org.jaudiotagger.**

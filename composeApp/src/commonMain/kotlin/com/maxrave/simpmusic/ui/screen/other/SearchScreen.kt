@@ -817,6 +817,11 @@ fun SearchScreen(
                                                             ),
                                                         state = resultsState,
                                                     ) {
+                                                        if (searchScreenState.searchType == SearchType.ALL || searchScreenState.searchType == SearchType.SONGS) {
+                                                            item(key = "local_search_section") {
+                                                                LocalSearchSection(query = searchText, currentVideoId = currentVideoId, onMore = onMoreClick)
+                                                            }
+                                                        }
                                                         items(currentResults) { result ->
                                                             when (result) {
                                                                 is SongsResult -> {
@@ -966,7 +971,15 @@ fun SearchScreen(
                                     }
 
                                     is SearchScreenUIState.Error -> {
-                                        Box {
+                                        // Offline the online search lands here; the user's own files still match.
+                                        Column(modifier = Modifier.fillMaxSize()) {
+                                            LocalSearchSection(
+                                                query = searchText,
+                                                currentVideoId = currentVideoId,
+                                                onMore = onMoreClick,
+                                                modifier = Modifier.padding(top = searchBarHeight),
+                                            )
+                                        Box(modifier = Modifier.fillMaxWidth().weight(1f)) {
                                             // Error state
                                             Column(
                                                 modifier = Modifier.align(Alignment.Center),
@@ -988,6 +1001,7 @@ fun SearchScreen(
                                                     Text(text = stringResource(Res.string.retry))
                                                 }
                                             }
+                                        }
                                         }
                                     }
 
