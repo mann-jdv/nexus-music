@@ -862,40 +862,43 @@ internal fun AppleMusicMainTitleRow(
     actions: NowPlayingContentActions,
     typography: AppleMusicTypography,
 ) {
-    Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = state.screenData.nowPlayingTitle,
-                style = typography.mainTitle,
-                maxLines = 1,
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .basicMarquee(iterations = Int.MAX_VALUE, animationMode = MarqueeAnimationMode.Immediately)
-                        .focusable(),
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                if (state.screenData.isExplicit) {
-                    ExplicitBadge(modifier = Modifier.size(20.dp).padding(end = 4.dp))
-                }
+    Column {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = state.screenData.artistName,
-                    style = typography.mainArtist,
+                    text = state.screenData.nowPlayingTitle,
+                    style = typography.mainTitle,
                     maxLines = 1,
                     modifier =
                         Modifier
+                            .fillMaxWidth()
                             .basicMarquee(iterations = Int.MAX_VALUE, animationMode = MarqueeAnimationMode.Immediately)
-                            .focusable()
-                            .clickable { actions.onNavigateToArtist() },
+                            .focusable(),
                 )
+                Spacer(modifier = Modifier.height(4.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    if (state.screenData.isExplicit) {
+                        ExplicitBadge(modifier = Modifier.size(20.dp).padding(end = 4.dp))
+                    }
+                    Text(
+                        text = state.screenData.artistName,
+                        style = typography.mainArtist,
+                        maxLines = 1,
+                        modifier =
+                            Modifier
+                                .basicMarquee(iterations = Int.MAX_VALUE, animationMode = MarqueeAnimationMode.Immediately)
+                                .focusable()
+                                .clickable { actions.onNavigateToArtist() },
+                    )
+                }
             }
+            Spacer(modifier = Modifier.width(12.dp))
+            AppleMusicHeaderActions(state = state, actions = actions)
         }
-        Spacer(modifier = Modifier.width(12.dp))
-        AppleMusicHeaderActions(state = state, actions = actions)
+        AudioQualityBadge(state)
     }
 }
 

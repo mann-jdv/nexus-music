@@ -54,8 +54,14 @@ fun MiniPlayerRoot(
     window: Window,
 ) {
     val nowPlayingData by sharedViewModel.nowPlayingScreenData.collectAsStateWithLifecycle()
+    val fidelity by sharedViewModel.playbackFidelity.collectAsStateWithLifecycle()
     val controllerState by sharedViewModel.controllerState.collectAsStateWithLifecycle()
     val timeline by sharedViewModel.timeline.collectAsStateWithLifecycle()
+    // Local files: "Artist · Hi-Res Lossless · Bit-perfect" — the artist stays, the badge rides along.
+    val miniData =
+        fidelity.shortLabel()?.let { badge ->
+            nowPlayingData.copy(artistName = listOfNotNull(nowPlayingData.artistName.ifBlank { null }, badge).joinToString(" · "))
+        } ?: nowPlayingData
 
     val lyricsData by remember {
         derivedStateOf {
@@ -88,7 +94,7 @@ fun MiniPlayerRoot(
                     when {
                         isSquareOrTall -> {
                             SquareMiniLayout(
-                                nowPlayingData = nowPlayingData,
+                                nowPlayingData = miniData,
                                 controllerState = controllerState,
                                 timeline = timeline,
                                 lyricsData = lyricsData,
@@ -106,7 +112,7 @@ fun MiniPlayerRoot(
 
                         maxWidth < 360.dp -> {
                             MediumMiniLayout(
-                                nowPlayingData = nowPlayingData,
+                                nowPlayingData = miniData,
                                 controllerState = controllerState,
                                 timeline = timeline,
                                 lyricsData = lyricsData,
@@ -116,7 +122,7 @@ fun MiniPlayerRoot(
 
                         else -> {
                             ExpandedMiniLayout(
-                                nowPlayingData = nowPlayingData,
+                                nowPlayingData = miniData,
                                 controllerState = controllerState,
                                 timeline = timeline,
                                 lyricsData = lyricsData,

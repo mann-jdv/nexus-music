@@ -595,7 +595,7 @@ internal fun AppleMusicTimesRow(
                     ),
                 label = "appleMusicSweepHead",
             )
-            val quality = state.audioQualityLabel
+            val quality = state.audioQualityLabel.takeUnless { state.isLocalAudio }
             val crossfadeLabelAlpha by animateFloatAsState(
                 targetValue = if (state.timelineState.isCrossfading) 1f else 0f,
                 label = "appleMusicCrossfadeLabelAlpha",

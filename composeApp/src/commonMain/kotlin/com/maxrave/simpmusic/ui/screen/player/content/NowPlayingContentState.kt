@@ -85,7 +85,8 @@ internal fun String.stripRichSyncTimestamps(): String =
  * `sampleRate`. A figure the format does not carry is dropped rather than guessed, and null comes
  * back when neither is known, so the line hides instead of showing a placeholder.
  */
-internal fun NewFormatEntity?.toAudioQualityLabel(): String? {
+internal fun NewFormatEntity?.toAudioQualityLabel(fidelity: com.maxrave.domain.data.player.PlaybackFidelity? = null): String? {
+    fidelity?.qualityLabel()?.let { return it }
     val format = this ?: return null
     val parts =
         buildList {
@@ -136,6 +137,7 @@ class NowPlayingContentState(
     val dismissIcon: ImageVector,
     /** "154 kbps · 48 kHz" for the stream now playing, or null while unknown — see [toAudioQualityLabel]. */
     val audioQualityLabel: String? = null,
+    val isLocalAudio: Boolean = false,
     /**
      * The user's lyrics delay, applied at read time. [currentLyricLineIndex] already has it baked in;
      * this is for anything that times WITHIN a line (the Apple Music lyric strip's word sweep).

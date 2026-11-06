@@ -201,6 +201,7 @@ fun NowPlayingScreenContent(
     val isDislikePending by sharedViewModel.isDislikePending.collectAsStateWithLifecycle()
     val castState by sharedViewModel.castState.collectAsStateWithLifecycle()
     // Apple Music style's quality line under the progress bar — see NowPlayingContentState.toAudioQualityLabel.
+    val fidelity by sharedViewModel.playbackFidelity.collectAsStateWithLifecycle()
     val formatState by sharedViewModel.format.collectAsStateWithLifecycle(initialValue = null)
 
     val shouldShowVideo by sharedViewModel.getVideo.collectAsStateWithLifecycle()
@@ -661,7 +662,8 @@ fun NowPlayingScreenContent(
             mainScrollState = mainScrollState,
             isExpanded = isExpanded,
             dismissIcon = dismissIcon,
-            audioQualityLabel = formatState.toAudioQualityLabel(),
+            audioQualityLabel = formatState.toAudioQualityLabel(fidelity),
+            isLocalAudio = fidelity.source != null,
             lyricsOffsetMs = lyricsOffsetMs.toLong(),
             videoAspectRatio = rememberVideoAspectRatio(MAIN_PLAYER) ?: 16f / 9,
         )

@@ -237,6 +237,7 @@ import simpmusic.composeapp.generated.resources.endless_queue
 import simpmusic.composeapp.generated.resources.error_occurred
 import simpmusic.composeapp.generated.resources.extract_source
 import simpmusic.composeapp.generated.resources.itag
+import simpmusic.composeapp.generated.resources.playback_output_line
 import simpmusic.composeapp.generated.resources.key
 import simpmusic.composeapp.generated.resources.like
 import simpmusic.composeapp.generated.resources.like_and_dislike
@@ -330,6 +331,7 @@ fun InfoPlayerBottomSheet(
     val screenDataState by sharedViewModel.nowPlayingScreenData.collectAsStateWithLifecycle()
     val songEntity by sharedViewModel.nowPlayingState.map { it?.songEntity }.collectAsState(null)
     val format by sharedViewModel.format.collectAsState(null)
+    val fidelity by sharedViewModel.playbackFidelity.collectAsStateWithLifecycle()
     val extractSource by sharedViewModel.extractSource.collectAsState()
     val downloadProgress by sharedViewModel.downloadFileProgress.collectAsStateWithLifecycle()
 
@@ -624,6 +626,25 @@ fun InfoPlayerBottomSheet(
                     maxLines = 1,
                     textAlign = TextAlign.Center,
                 )
+                fidelity.qualityLabel()?.let { quality ->
+                    Text(
+                        text = quality,
+                        style = typo().bodyMedium,
+                        color = rememberSurfaceDarkColors().content,
+                        modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 16.dp),
+                        textAlign = TextAlign.Center,
+                    )
+                }
+                // Where the audio actually goes: mixer rate, device path, DSP state.
+                fidelity.outputLabel()?.let { output ->
+                    Text(
+                        text = stringResource(Res.string.playback_output_line, output),
+                        style = typo().bodySmall,
+                        color = rememberSurfaceDarkColors().content.copy(alpha = 0.7f),
+                        modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 16.dp),
+                        textAlign = TextAlign.Center,
+                    )
+                }
                 Text(
                     text = stringResource(Res.string.itag),
                     modifier =
@@ -660,7 +681,7 @@ fun InfoPlayerBottomSheet(
                     color = rememberSurfaceDarkColors().content,
                 )
                 Text(
-                    text = format?.mimeType ?: stringResource(Res.string.unknown),
+                    text = fidelity.source?.mimeType ?: format?.mimeType ?: stringResource(Res.string.unknown),
                     modifier =
                         Modifier
                             .fillMaxWidth()
@@ -685,7 +706,7 @@ fun InfoPlayerBottomSheet(
                     color = rememberSurfaceDarkColors().content,
                 )
                 Text(
-                    text = format?.codecs ?: stringResource(Res.string.unknown),
+                    text = fidelity.source?.codec ?: format?.codecs ?: stringResource(Res.string.unknown),
                     modifier =
                         Modifier
                             .fillMaxWidth()
@@ -710,7 +731,7 @@ fun InfoPlayerBottomSheet(
                     color = rememberSurfaceDarkColors().content,
                 )
                 Text(
-                    text = format?.bitrate?.toString() ?: stringResource(Res.string.unknown),
+                    text = fidelity.source?.bitrate?.toString() ?: format?.bitrate?.toString() ?: stringResource(Res.string.unknown),
                     modifier =
                         Modifier
                             .fillMaxWidth()

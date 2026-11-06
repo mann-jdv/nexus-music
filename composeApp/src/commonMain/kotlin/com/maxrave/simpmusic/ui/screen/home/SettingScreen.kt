@@ -171,6 +171,8 @@ import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
+import simpmusic.composeapp.generated.resources.bit_perfect_lossless
+import simpmusic.composeapp.generated.resources.bit_perfect_lossless_description
 import simpmusic.composeapp.generated.resources.Res
 import simpmusic.composeapp.generated.resources.base_url
 import simpmusic.composeapp.generated.resources.configured
@@ -529,6 +531,7 @@ fun SettingScreen(
     val radioAudioOnly by remember { viewModel.radioAudioOnly.map { it == TRUE } }.collectAsStateWithLifecycle(initialValue = false)
     val videoQuality by viewModel.videoQuality.collectAsStateWithLifecycle()
     val sendData by remember { viewModel.sendBackToGoogle.map { it == TRUE } }.collectAsStateWithLifecycle(initialValue = false)
+    val bitPerfectLossless by viewModel.bitPerfectLossless.collectAsStateWithLifecycle(initialValue = true)
     val normalizeVolume by remember { viewModel.normalizeVolume.map { it == TRUE } }.collectAsStateWithLifecycle(initialValue = false)
     val skipSilent by remember { viewModel.skipSilent.map { it == TRUE } }.collectAsStateWithLifecycle(initialValue = false)
     val savePlaybackState by remember { viewModel.savedPlaybackState.map { it == TRUE } }.collectAsStateWithLifecycle(initialValue = false)
@@ -1395,9 +1398,25 @@ fun SettingScreen(
                 }
             }
         }
+        if (getPlatform() != Platform.Android) {
+            item(key = "lossless_audio") {
+                SettingGroup(title = stringResource(Res.string.audio)) {
+                    SettingItem(
+                        title = stringResource(Res.string.bit_perfect_lossless),
+                        subtitle = stringResource(Res.string.bit_perfect_lossless_description),
+                        switch = (bitPerfectLossless to { viewModel.setBitPerfectLossless(it) }),
+                    )
+                }
+            }
+        }
         if (getPlatform() == Platform.Android) {
             item(key = "audio") {
                 SettingGroup(title = stringResource(Res.string.audio)) {
+                    SettingItem(
+                        title = stringResource(Res.string.bit_perfect_lossless),
+                        subtitle = stringResource(Res.string.bit_perfect_lossless_description),
+                        switch = (bitPerfectLossless to { viewModel.setBitPerfectLossless(it) }),
+                    )
                     SettingItem(
                         title = stringResource(Res.string.normalize_volume),
                         subtitle = stringResource(Res.string.balance_media_loudness),

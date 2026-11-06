@@ -1082,4 +1082,7 @@
     <string name="local_remove_folder">Remove folder</string>
     <string name="local_remove_folder_message">Stop reading music from %1$s? The files stay where they are.</string>
     <string name="local_search_section">On this device</string>
+    <string name="bit_perfect_lossless">Bit-perfect lossless</string>
+    <string name="bit_perfect_lossless_description">For local lossless files, skip the equalizer, effects, crossfade, speed, pitch and volume normalization. Asks for native-rate USB (Android 14+) or exclusive output (Windows) where available; the player shows what actually happens to the audio.</string>
+    <string name="playback_output_line">Output: %1$s</string>
 </resources>

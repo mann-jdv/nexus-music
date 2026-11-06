@@ -99,6 +99,11 @@ class SettingsViewModel(
     val loggedIn: StateFlow<String?> = _loggedIn
     private var _normalizeVolume: MutableStateFlow<String?> = MutableStateFlow(null)
     val normalizeVolume: StateFlow<String?> = _normalizeVolume
+    val bitPerfectLossless = dataStoreManager.bitPerfectLossless
+
+    fun setBitPerfectLossless(enabled: Boolean) {
+        viewModelScope.launch { dataStoreManager.setBitPerfectLossless(enabled) }
+    }
     private var _skipSilent: MutableStateFlow<String?> = MutableStateFlow(null)
     val skipSilent: StateFlow<String?> = _skipSilent
     private var _savedPlaybackState: MutableStateFlow<String?> = MutableStateFlow(null)

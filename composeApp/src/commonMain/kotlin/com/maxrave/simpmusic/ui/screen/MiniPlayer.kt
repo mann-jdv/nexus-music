@@ -171,6 +171,7 @@ fun MiniPlayer(
     val controllerState by sharedViewModel.controllerState.collectAsStateWithLifecycle()
     val timelineState by sharedViewModel.timeline.collectAsStateWithLifecycle()
     // The Desktop capsule's quality line between its timestamps — see toAudioQualityLabel.
+    val fidelity by sharedViewModel.playbackFidelity.collectAsStateWithLifecycle()
     val formatState by sharedViewModel.format.collectAsStateWithLifecycle(initialValue = null)
 
     val layer = rememberGraphicsLayer()
@@ -491,7 +492,7 @@ fun MiniPlayer(
                                                 )
                                             }
                                             Text(
-                                                text = (songEntity?.artistName?.connectArtists() ?: ""),
+                                                text = listOfNotNull(songEntity?.artistName?.connectArtists()?.ifBlank { null }, fidelity.shortLabel()).joinToString(" · "),
                                                 style = if (isFlat) typo().bodySmall.copy(fontSize = 10.sp) else typo().bodySmall,
                                                 maxLines = 1,
                                                 color = if (isFlat) MaterialTheme.colorScheme.onSurfaceVariant else textColor,
@@ -900,7 +901,7 @@ fun MiniPlayer(
                             maxLines = 1,
                         )
                         // The Now Playing quality line, centred between the times and a step dimmer.
-                        formatState.toAudioQualityLabel()?.let { quality ->
+                        formatState.toAudioQualityLabel(fidelity)?.let { quality ->
                             Row(
                                 modifier = Modifier.weight(1f),
                                 horizontalArrangement = Arrangement.Center,
@@ -915,6 +916,7 @@ fun MiniPlayer(
                                 Spacer(modifier = Modifier.width(4.dp))
                                 Text(
                                     text = quality,
+                                    modifier = Modifier.basicMarquee(),
                                     style = scrubberDigits,
                                     color = textColor.copy(alpha = 0.45f),
                                     maxLines = 1,

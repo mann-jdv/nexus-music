@@ -689,137 +689,140 @@ internal fun ExpressiveTrackInfoRow(
     actions: NowPlayingContentActions,
     showCanvasThumbnail: Boolean = true,
 ) {
-    val colorScheme = MaterialTheme.colorScheme
-    Row(
-        modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        // While a canvas hides the big artwork, a small thumbnail joins the row — Classic
-        // verbatim (its shared NowPlayingTrackInfoRow does exactly this). Switched off by the
-        // fullscreen lyrics landscape layout, which shows the full artwork right above the row.
-        AnimatedVisibility(showCanvasThumbnail && state.screenData.fullscreenCanvas() != null) {
-            AsyncImage(
-                model =
-                    ImageRequest
-                        .Builder(LocalPlatformContext.current)
-                        .data(state.screenData.thumbnailURL)
-                        .diskCachePolicy(CachePolicy.ENABLED)
-                        .diskCacheKey(state.screenData.thumbnailURL + "BIGGER")
-                        .crossfade(true)
-                        .build(),
-                placeholder = rememberHolderPainter(square = true),
-                error = rememberHolderPainter(square = true),
-                contentDescription = null,
-                contentScale = ContentScale.FillWidth,
-                modifier =
-                    Modifier
-                        .heightIn(0.dp, 55.dp)
-                        .width(55.dp)
-                        .padding(end = 10.dp)
-                        .clip(
-                            RoundedCornerShape(4.dp),
-                        ).align(Alignment.CenterVertically),
-            )
-        }
+    Column {
+        val colorScheme = MaterialTheme.colorScheme
+        Row(
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            // While a canvas hides the big artwork, a small thumbnail joins the row — Classic
+            // verbatim (its shared NowPlayingTrackInfoRow does exactly this). Switched off by the
+            // fullscreen lyrics landscape layout, which shows the full artwork right above the row.
+            AnimatedVisibility(showCanvasThumbnail && state.screenData.fullscreenCanvas() != null) {
+                AsyncImage(
+                    model =
+                        ImageRequest
+                            .Builder(LocalPlatformContext.current)
+                            .data(state.screenData.thumbnailURL)
+                            .diskCachePolicy(CachePolicy.ENABLED)
+                            .diskCacheKey(state.screenData.thumbnailURL + "BIGGER")
+                            .crossfade(true)
+                            .build(),
+                    placeholder = rememberHolderPainter(square = true),
+                    error = rememberHolderPainter(square = true),
+                    contentDescription = null,
+                    contentScale = ContentScale.FillWidth,
+                    modifier =
+                        Modifier
+                            .heightIn(0.dp, 55.dp)
+                            .width(55.dp)
+                            .padding(end = 10.dp)
+                            .clip(
+                                RoundedCornerShape(4.dp),
+                            ).align(Alignment.CenterVertically),
+                )
+            }
 
-        Column(Modifier.weight(1f)) {
-            Text(
-                text = state.screenData.nowPlayingTitle,
-                style = typo().titleMedium,
-                color = Color.White,
-                maxLines = 1,
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(align = Alignment.CenterVertically)
-                        .basicMarquee(
-                            iterations = Int.MAX_VALUE,
-                            animationMode = MarqueeAnimationMode.Immediately,
-                        ).focusable(),
-            )
-            Spacer(modifier = Modifier.height(3.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                AnimatedVisibility(visible = state.screenData.isExplicit) {
-                    ExplicitBadge(
-                        modifier =
-                            Modifier
-                                .size(20.dp)
-                                .padding(end = 4.dp),
-                    )
-                }
+            Column(Modifier.weight(1f)) {
                 Text(
-                    text = state.screenData.artistName,
-                    style = typo().bodyMedium,
-                    color = state.secondaryTextColor(),
+                    text = state.screenData.nowPlayingTitle,
+                    style = typo().titleMedium,
+                    color = Color.White,
                     maxLines = 1,
                     modifier =
                         Modifier
-                            .weight(1f)
+                            .fillMaxWidth()
                             .wrapContentHeight(align = Alignment.CenterVertically)
                             .basicMarquee(
                                 iterations = Int.MAX_VALUE,
                                 animationMode = MarqueeAnimationMode.Immediately,
-                            ).focusable()
-                            .clickable {
-                                actions.onNavigateToArtist()
-                            },
+                            ).focusable(),
                 )
+                Spacer(modifier = Modifier.height(3.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    AnimatedVisibility(visible = state.screenData.isExplicit) {
+                        ExplicitBadge(
+                            modifier =
+                                Modifier
+                                    .size(20.dp)
+                                    .padding(end = 4.dp),
+                        )
+                    }
+                    Text(
+                        text = state.screenData.artistName,
+                        style = typo().bodyMedium,
+                        color = state.secondaryTextColor(),
+                        maxLines = 1,
+                        modifier =
+                            Modifier
+                                .weight(1f)
+                                .wrapContentHeight(align = Alignment.CenterVertically)
+                                .basicMarquee(
+                                    iterations = Int.MAX_VALUE,
+                                    animationMode = MarqueeAnimationMode.Immediately,
+                                ).focusable()
+                                .clickable {
+                                    actions.onNavigateToArtist()
+                                },
+                    )
+                }
             }
-        }
-        if (state.isUserLoggedIn) {
-            Spacer(modifier = Modifier.size(12.dp))
-            IconButton(
-                onClick = { actions.onAddToYouTubeLiked() },
+            if (state.isUserLoggedIn) {
+                Spacer(modifier = Modifier.size(12.dp))
+                IconButton(
+                    onClick = { actions.onAddToYouTubeLiked() },
+                    shape = CircleShape,
+                    colors =
+                        IconButtonDefaults.iconButtonColors(
+                            containerColor = colorScheme.surfaceContainerHigh,
+                            contentColor = colorScheme.onSurface,
+                        ),
+                    modifier = Modifier.size(48.dp),
+                ) {
+                    Crossfade(targetState = state.likeStatus) { liked ->
+                        Icon(
+                            imageVector = if (liked) SimpIcons.CheckCircle else SimpIcons.AddCircleOutline,
+                            contentDescription = "",
+                        )
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.size(8.dp))
+            val likeBurst = rememberHeartBurstState()
+            FilledIconToggleButton(
+                checked = state.controllerState.isLiked,
+                onCheckedChange = {
+                    // Fire on the TAP that likes, never on the state — see HeartBurstState's doc.
+                    if (!state.controllerState.isLiked) likeBurst.fire()
+                    actions.onUIEvent(UIEvent.ToggleLike)
+                },
                 shape = CircleShape,
                 colors =
-                    IconButtonDefaults.iconButtonColors(
+                    IconButtonDefaults.filledIconToggleButtonColors(
                         containerColor = colorScheme.surfaceContainerHigh,
-                        contentColor = colorScheme.onSurface,
+                        contentColor = colorScheme.onSurfaceVariant,
+                        checkedContainerColor = colorScheme.primaryContainer,
+                        checkedContentColor = colorScheme.onPrimaryContainer,
                     ),
-                modifier = Modifier.size(48.dp),
+                // The burst draws outside the 48dp bounds; the button's own shape clip is internal
+                // (on its Surface), so sparks fired from this outer modifier are not trimmed.
+                modifier = Modifier.size(48.dp).heartBurst(likeBurst),
             ) {
-                Crossfade(targetState = state.likeStatus) { liked ->
+                Crossfade(targetState = state.controllerState.isLiked) { liked ->
                     Icon(
-                        imageVector = if (liked) SimpIcons.CheckCircle else SimpIcons.AddCircleOutline,
+                        imageVector = if (liked) SimpIcons.Favorite else SimpIcons.FavoriteBorder,
                         contentDescription = "",
                     )
                 }
             }
         }
-        Spacer(modifier = Modifier.size(8.dp))
-        val likeBurst = rememberHeartBurstState()
-        FilledIconToggleButton(
-            checked = state.controllerState.isLiked,
-            onCheckedChange = {
-                // Fire on the TAP that likes, never on the state — see HeartBurstState's doc.
-                if (!state.controllerState.isLiked) likeBurst.fire()
-                actions.onUIEvent(UIEvent.ToggleLike)
-            },
-            shape = CircleShape,
-            colors =
-                IconButtonDefaults.filledIconToggleButtonColors(
-                    containerColor = colorScheme.surfaceContainerHigh,
-                    contentColor = colorScheme.onSurfaceVariant,
-                    checkedContainerColor = colorScheme.primaryContainer,
-                    checkedContentColor = colorScheme.onPrimaryContainer,
-                ),
-            // The burst draws outside the 48dp bounds; the button's own shape clip is internal
-            // (on its Surface), so sparks fired from this outer modifier are not trimmed.
-            modifier = Modifier.size(48.dp).heartBurst(likeBurst),
-        ) {
-            Crossfade(targetState = state.controllerState.isLiked) { liked ->
-                Icon(
-                    imageVector = if (liked) SimpIcons.Favorite else SimpIcons.FavoriteBorder,
-                    contentDescription = "",
-                )
-            }
-        }
+        AudioQualityBadge(state)
     }
 }
 

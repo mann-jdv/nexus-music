@@ -165,6 +165,7 @@ class SharedViewModel(
 
     private var _format: MutableStateFlow<NewFormatEntity?> = MutableStateFlow(null)
     val format: SharedFlow<NewFormatEntity?> = _format.asSharedFlow()
+    val playbackFidelity get() = mediaPlayerHandler.player.playbackFidelity
 
     /**
      * Which extractor and cipher decoder produced the current track's URLs, shown in the info sheet.

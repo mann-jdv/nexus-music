@@ -1825,138 +1825,141 @@ internal fun NowPlayingTrackInfoRow(
     actions: NowPlayingContentActions,
     showCanvasThumbnail: Boolean = true,
 ) {
-    Row(
-        modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        AnimatedVisibility(showCanvasThumbnail && state.screenData.fullscreenCanvas() != null) {
-            AsyncImage(
-                model =
-                    ImageRequest
-                        .Builder(LocalPlatformContext.current)
-                        .data(state.screenData.thumbnailURL)
-                        .diskCachePolicy(CachePolicy.ENABLED)
-                        .diskCacheKey(state.screenData.thumbnailURL + "BIGGER")
-                        .crossfade(true)
-                        .build(),
-                placeholder = rememberHolderPainter(square = true),
-                error = rememberHolderPainter(square = true),
-                contentDescription = null,
-                contentScale = ContentScale.FillWidth,
-                modifier =
-                    Modifier
-                        .heightIn(0.dp, 55.dp)
-                        .width(55.dp)
-                        .padding(end = 10.dp)
-                        .clip(
-                            RoundedCornerShape(4.dp),
-                        ).align(Alignment.CenterVertically),
-            )
-        }
+    Column {
+        Row(
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            AnimatedVisibility(showCanvasThumbnail && state.screenData.fullscreenCanvas() != null) {
+                AsyncImage(
+                    model =
+                        ImageRequest
+                            .Builder(LocalPlatformContext.current)
+                            .data(state.screenData.thumbnailURL)
+                            .diskCachePolicy(CachePolicy.ENABLED)
+                            .diskCacheKey(state.screenData.thumbnailURL + "BIGGER")
+                            .crossfade(true)
+                            .build(),
+                    placeholder = rememberHolderPainter(square = true),
+                    error = rememberHolderPainter(square = true),
+                    contentDescription = null,
+                    contentScale = ContentScale.FillWidth,
+                    modifier =
+                        Modifier
+                            .heightIn(0.dp, 55.dp)
+                            .width(55.dp)
+                            .padding(end = 10.dp)
+                            .clip(
+                                RoundedCornerShape(4.dp),
+                            ).align(Alignment.CenterVertically),
+                )
+            }
 
-        Column(Modifier.weight(1f)) {
-            Text(
-                text = state.screenData.nowPlayingTitle,
-                style = typo().titleMedium,
-                maxLines = 1,
-                color = Color.White,
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(align = Alignment.CenterVertically)
-                        .basicMarquee(
-                            iterations = Int.MAX_VALUE,
-                            animationMode = MarqueeAnimationMode.Immediately,
-                        ).focusable(),
-            )
-            Spacer(modifier = Modifier.height(3.dp))
-            val artistRowState = rememberLazyListState()
-            LazyRow(
-                modifier = Modifier.fillMaxWidth().mouseDragScroll(artistRowState),
-                state = artistRowState,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                item(state.screenData.isExplicit) {
-                    AnimatedVisibility(visible = state.screenData.isExplicit) {
-                        ExplicitBadge(
+            Column(Modifier.weight(1f)) {
+                Text(
+                    text = state.screenData.nowPlayingTitle,
+                    style = typo().titleMedium,
+                    maxLines = 1,
+                    color = Color.White,
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(align = Alignment.CenterVertically)
+                            .basicMarquee(
+                                iterations = Int.MAX_VALUE,
+                                animationMode = MarqueeAnimationMode.Immediately,
+                            ).focusable(),
+                )
+                Spacer(modifier = Modifier.height(3.dp))
+                val artistRowState = rememberLazyListState()
+                LazyRow(
+                    modifier = Modifier.fillMaxWidth().mouseDragScroll(artistRowState),
+                    state = artistRowState,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    item(state.screenData.isExplicit) {
+                        AnimatedVisibility(visible = state.screenData.isExplicit) {
+                            ExplicitBadge(
+                                modifier =
+                                    Modifier
+                                        .size(20.dp)
+                                        .padding(end = 4.dp)
+                                        .weight(1f),
+                            )
+                        }
+                    }
+                    item(state.screenData.artistName) {
+                        Text(
+                            text = state.screenData.artistName,
+                            style = typo().bodyMedium,
+                            color = state.secondaryTextColor(),
+                            maxLines = 1,
                             modifier =
                                 Modifier
-                                    .size(20.dp)
-                                    .padding(end = 4.dp)
-                                    .weight(1f),
-                        )
-                    }
-                }
-                item(state.screenData.artistName) {
-                    Text(
-                        text = state.screenData.artistName,
-                        style = typo().bodyMedium,
-                        color = state.secondaryTextColor(),
-                        maxLines = 1,
-                        modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .wrapContentHeight(align = Alignment.CenterVertically)
-                                .basicMarquee(
-                                    iterations = Int.MAX_VALUE,
-                                    animationMode = MarqueeAnimationMode.Immediately,
-                                ).focusable()
-                                .clickable {
-                                    actions.onNavigateToArtist()
-                                },
-                    )
-                }
-            }
-        }
-        if (state.isUserLoggedIn) {
-            Spacer(modifier = Modifier.size(16.dp))
-            Crossfade(
-                targetState = state.likeStatus,
-            ) {
-                if (it) {
-                    IconButton(
-                        modifier =
-                            Modifier
-                                .size(24.dp)
-                                .aspectRatio(1f)
-                                .clip(
-                                    CircleShape,
-                                ),
-                        onClick = {
-                            actions.onAddToYouTubeLiked()
-                        },
-                    ) {
-                        Icon(imageVector = SimpIcons.CheckCircle, tint = Color.White, contentDescription = "")
-                    }
-                } else {
-                    IconButton(
-                        modifier =
-                            Modifier
-                                .size(24.dp)
-                                .aspectRatio(1f)
-                                .clip(
-                                    CircleShape,
-                                ),
-                        onClick = {
-                            actions.onAddToYouTubeLiked()
-                        },
-                    ) {
-                        Icon(
-                            imageVector = SimpIcons.AddCircleOutline,
-                            tint = Color.White,
-                            contentDescription = "",
+                                    .fillMaxWidth()
+                                    .wrapContentHeight(align = Alignment.CenterVertically)
+                                    .basicMarquee(
+                                        iterations = Int.MAX_VALUE,
+                                        animationMode = MarqueeAnimationMode.Immediately,
+                                    ).focusable()
+                                    .clickable {
+                                        actions.onNavigateToArtist()
+                                    },
                         )
                     }
                 }
             }
+            if (state.isUserLoggedIn) {
+                Spacer(modifier = Modifier.size(16.dp))
+                Crossfade(
+                    targetState = state.likeStatus,
+                ) {
+                    if (it) {
+                        IconButton(
+                            modifier =
+                                Modifier
+                                    .size(24.dp)
+                                    .aspectRatio(1f)
+                                    .clip(
+                                        CircleShape,
+                                    ),
+                            onClick = {
+                                actions.onAddToYouTubeLiked()
+                            },
+                        ) {
+                            Icon(imageVector = SimpIcons.CheckCircle, tint = Color.White, contentDescription = "")
+                        }
+                    } else {
+                        IconButton(
+                            modifier =
+                                Modifier
+                                    .size(24.dp)
+                                    .aspectRatio(1f)
+                                    .clip(
+                                        CircleShape,
+                                    ),
+                            onClick = {
+                                actions.onAddToYouTubeLiked()
+                            },
+                        ) {
+                            Icon(
+                                imageVector = SimpIcons.AddCircleOutline,
+                                tint = Color.White,
+                                contentDescription = "",
+                            )
+                        }
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.size(12.dp))
+            HeartCheckBox(checked = state.controllerState.isLiked, size = 32) {
+                actions.onUIEvent(UIEvent.ToggleLike)
+            }
         }
-        Spacer(modifier = Modifier.size(12.dp))
-        HeartCheckBox(checked = state.controllerState.isLiked, size = 32) {
-            actions.onUIEvent(UIEvent.ToggleLike)
-        }
+        AudioQualityBadge(state)
     }
 }
 
