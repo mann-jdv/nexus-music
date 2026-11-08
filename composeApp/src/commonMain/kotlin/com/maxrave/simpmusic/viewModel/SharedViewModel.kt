@@ -76,8 +76,6 @@ import com.maxrave.simpmusic.expect.ui.toByteArray
 import com.maxrave.simpmusic.getPlatform
 import com.maxrave.simpmusic.utils.LyricsPromo
 import com.maxrave.simpmusic.utils.VersionManager
-import com.maxrave.simpmusic.utils.decodeLyricsPromos
-import com.maxrave.simpmusic.utils.decodePromos
 import com.maxrave.simpmusic.utils.shownPromoIds
 import com.maxrave.simpmusic.utils.withShownPromo
 import com.maxrave.simpmusic.viewModel.base.BaseViewModel
@@ -98,6 +96,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.lastOrNull
@@ -133,6 +132,11 @@ import kotlin.time.Duration.Companion.days
 // DataStore key for the kotlin-footguns star prompt. Cleared on every version bump,
 // so the ask comes back after an update - same policy as OPEN_APP_TIME.
 const val FOOTGUNS_STAR_KEY = "footguns_starred"
+
+// Nexus Music: one-time switch of the content country to India. Upstream defaults to Vietnam ("VN"),
+// so signed-out Home, Charts and Explore came back Vietnamese. Bump the suffix to apply it again.
+private const val NEXUS_INDIA_LOCATION_KEY = "nexus_location_india_v1"
+private const val NEXUS_DEFAULT_LOCATION = "IN"
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SharedViewModel(
@@ -294,6 +298,11 @@ class SharedViewModel(
                 )
             }
             dataStoreManager.openApp()
+            if (dataStoreManager.getString(NEXUS_INDIA_LOCATION_KEY).first() != TRUE) {
+                dataStoreManager.setLocation(NEXUS_DEFAULT_LOCATION)
+                dataStoreManager.setChartKey(NEXUS_DEFAULT_LOCATION)
+                dataStoreManager.putString(NEXUS_INDIA_LOCATION_KEY, TRUE)
+            }
             val timeLineJob =
                 launch {
                     nowPlayingState
@@ -743,18 +752,11 @@ class SharedViewModel(
      * the whole settings file (the playback position is saved every few seconds), so only a change
      * to this block's own text gets through.
      */
-    fun cachedPromos(): Flow<List<Promo>> =
-        dataStoreManager
-            .getString(Promo.cacheKey(appIdentity.isDevBuild))
-            .distinctUntilChanged()
-            .map(::decodePromos)
+    // Nexus Music: upstream's remote promos (launch banners, the line under the lyrics) are never shown.
+    fun cachedPromos(): Flow<List<Promo>> = flowOf(emptyList())
 
     /** The same block's entries placed under the lyrics, as it changes. */
-    fun cachedLyricsPromos(): Flow<List<LyricsPromo>> =
-        dataStoreManager
-            .getString(Promo.cacheKey(appIdentity.isDevBuild))
-            .distinctUntilChanged()
-            .map(::decodeLyricsPromos)
+    fun cachedLyricsPromos(): Flow<List<LyricsPromo>> = flowOf(emptyList())
 
     /** The ids of the launch banners this app version has already shown. */
     suspend fun shownPromos(): Set<String> = shownPromosFlow().first()

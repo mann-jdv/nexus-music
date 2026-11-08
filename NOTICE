@@ -62,4 +62,9 @@ Modifications (GPL-3.0 section 5(a): what changed, and when)
             Upstream's rating, donation, blog and promo pop-ups and links removed from the app;
             the about screen shows Nexus Music text with a GPL-3.0 notice.
 
+2026-11-08  Promotions deleted, India as content country
+            The promo dialogs, the remote launch banner and the remote promo line under the
+            lyrics are deleted from the source. Content country and charts default to India.
+            The debug build is labelled "Nexus Music".
+
 The full history of each change is in the git log of this repository and of core/.

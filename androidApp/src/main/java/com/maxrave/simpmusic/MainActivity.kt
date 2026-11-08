@@ -29,7 +29,6 @@ import com.maxrave.common.FIRST_TIME_MIGRATION
 import com.maxrave.common.SELECTED_LANGUAGE
 import com.maxrave.common.STATUS_DONE
 import com.maxrave.common.SUPPORTED_LANGUAGE
-import com.maxrave.common.SUPPORTED_LOCATION
 import com.maxrave.domain.data.model.intent.GenericIntent
 import com.maxrave.domain.manager.DataStoreManager
 import com.maxrave.domain.mediaservice.handler.MediaPlayerHandler
@@ -147,14 +146,12 @@ class MainActivity : AppCompatActivity() {
                     }",
                 )
                 putString(SELECTED_LANGUAGE, Locale.getDefault().toLanguageTag())
-                if (SUPPORTED_LOCATION.items.contains(Locale.getDefault().country)) {
-                    putString("location", Locale.getDefault().country)
-                } else {
-                    putString("location", "US")
-                }
             } else {
                 putString(SELECTED_LANGUAGE, "en-US")
             }
+            // Nexus Music: content country is India on every new install (SharedViewModel moves
+            // existing installs over once). It can still be changed in Settings > Content country.
+            putString("location", "IN")
             // Fetch the selected language from wherever it was stored. In this case its SharedPref
             getString(SELECTED_LANGUAGE)?.let {
                 Logger.d("Locale Key", "getString: $it")
