@@ -2,9 +2,9 @@
 # nothing. Upstream SimpMusic's release / nightly / desktop-package / PR-triage workflows were
 # removed because they build and publish with upstream's signing keys, Sentry, Conveyor and
 # release channels. Keep any new workflow named nexus-*.yml (scripts/sync-upstream.sh flags others).
-# Note: core/ is a submodule whose URL (.gitmodules) is upstream's maxrave-dev/core. The Nexus core
-# commits are local only, so this job can only check out core once they are pushed to a repo the
-# submodule URL points at (see SYNC.md, "Where the core commits live").
+# Note: core/ is a submodule at ../nexus-music-core.git (see SYNC.md, "Where the core commits live").
+# If both repos are private, this job's default token cannot read nexus-music-core, so the checkout
+# fails until a token with access to it is passed to actions/checkout.
 name: Nexus build check
 
 on:

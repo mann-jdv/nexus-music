@@ -135,8 +135,11 @@ Edited: `build.gradle.kts` (version block), `README.md` (Nexus block on top — 
 
 ## Where the core commits live
 
-Nexus core commits exist only in your local `core/` clone, on its `nexus/main`. `.gitmodules`
-still points at upstream's `maxrave-dev/core`, so a fresh clone of this repo (or CI) cannot check
-out core at the recorded commit. Before relying on another machine or on CI, push core's
-`nexus/main` to a repository you own and point `.gitmodules` at it
-(`git submodule set-url core <url>`). Until then, back up the `core/` directory with the repo.
+Nexus core commits live on core's `nexus/main`, pushed to your own `nexus-music-core` repository.
+`.gitmodules` points at it with the RELATIVE url `../nexus-music-core.git`, so it resolves to
+`<owner>/nexus-music-core` next to wherever this repo is hosted, whatever the owner is called.
+Only the `.gitmodules` file was changed (`git config -f .gitmodules`), NOT `git submodule set-url`:
+that would also rewrite core's local `origin`, which must stay upstream's `maxrave-dev/core` for the
+sync script. Upstream's own `.gitmodules` carries an absolute maxrave-dev url; on a merge conflict
+there, keep ours. Push core's `nexus/main` to `nexus-music-core` BEFORE pushing this repo, or the
+recorded core commit will not exist on GitHub.
