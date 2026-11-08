@@ -3,8 +3,8 @@
 # removed because they build and publish with upstream's signing keys, Sentry, Conveyor and
 # release channels. Keep any new workflow named nexus-*.yml (scripts/sync-upstream.sh flags others).
 # Note: core/ is a submodule at ../nexus-music-core.git (see SYNC.md, "Where the core commits live").
-# If both repos are private, this job's default token cannot read nexus-music-core, so the checkout
-# fails until a token with access to it is passed to actions/checkout.
+# Both repos are public, so the default token can check out the submodule. If they are ever made
+# private, the checkout fails until a token with access to nexus-music-core is passed to it.
 name: Nexus build check
 
 on:
